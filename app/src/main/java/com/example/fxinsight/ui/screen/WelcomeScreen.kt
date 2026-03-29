@@ -60,12 +60,6 @@ fun WelcomeScreen(modifier: Modifier = Modifier,
         Text("Start ")
        }
 
-
-
-
-
-
-
     }
 
 }

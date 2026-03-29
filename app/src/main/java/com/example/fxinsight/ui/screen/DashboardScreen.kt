@@ -1,7 +1,10 @@
 package com.example.fxinsight.ui.screen
 
+import android.R.attr.onClick
+import android.widget.Button
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,19 +24,25 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.AssistChip
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.SheetState
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,6 +55,7 @@ import androidx.compose.ui.unit.sp
 import com.example.fxinsight.Greeting
 import com.example.fxinsight.R
 import com.example.fxinsight.ui.theme.FXInsightTheme
+import kotlinx.coroutines.launch
 
 @Composable
 fun DashboardScreen(modifier: Modifier = Modifier)
@@ -139,6 +149,7 @@ fun DashboardTopBar() {
         }
     }
 }
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CurrencyBox(
     amount: String,
@@ -146,6 +157,9 @@ fun CurrencyBox(
     currencyCode: String,
     modifier: Modifier = Modifier
 ) {
+    var showSheet by remember {mutableStateOf(false)}
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
     Surface(
         modifier = modifier,
         shape = RoundedCornerShape(16.dp),
@@ -170,24 +184,76 @@ fun CurrencyBox(
 
             Spacer(modifier = Modifier.width(8.dp))
 
-            Image(
-                painter = painterResource(R.drawable.ic_launcher_foreground),
-                contentDescription = "Currency flag",
-                modifier = Modifier.size(10.dp)
-            )
+            CurrencySelector("USD")
 
-            Spacer(modifier = Modifier.width(6.dp))
+        }
+    }
+}
 
-            Text(
-                text = currencyCode,
-                style = MaterialTheme.typography.bodyLarge,
-                fontSize = 12.sp
-            )
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun CurrencySelector(currencyCode: String) {
+    var showSheet by remember { mutableStateOf(false) }
+    val sheetState = rememberModalBottomSheetState()
+    val scope = rememberCoroutineScope()
 
-            Icon(
-                imageVector = Icons.Default.KeyboardArrowDown,
-                contentDescription = "Select currency"
-            )
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Image(
+            painter = painterResource(R.drawable.ic_launcher_foreground),
+            contentDescription = "Currency flag",
+            modifier = Modifier
+                .size(24.dp)
+                .clickable {
+                    showSheet = true
+                }
+        )
+
+        Spacer(modifier = Modifier.width(6.dp))
+
+        Text(
+            text = currencyCode,
+            style = MaterialTheme.typography.bodyLarge,
+            fontSize = 12.sp
+        )
+
+        Icon(
+            imageVector = Icons.Default.KeyboardArrowDown,
+            contentDescription = "Select currency",
+            modifier = Modifier.clickable {
+                showSheet = true
+            }
+        )
+    }
+
+    if (showSheet) {
+        ModalBottomSheet(
+            onDismissRequest = { showSheet = false },
+            sheetState = sheetState
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text("hello")
+                Text("hello")
+                Text("hello")
+                Text("hello")
+                Text("hello")
+                Text("hello")
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Button(
+                    onClick = {
+                        scope.launch {
+                            sheetState.hide()
+                            showSheet = false
+                        }
+                    }
+                ) {
+                    Text("Done")
+                }
+            }
         }
     }
 }
