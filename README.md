@@ -9,7 +9,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ## Screenshots
 
-## 📸 Screenshots
+##  Screenshots
 
 
 - Login Screen  
@@ -71,10 +71,6 @@ Built with a focus on **clean architecture, real-world data handling, and produc
   
   Sign In
   ![System Design](image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
-  
-
-## 🧱 Architecture
-![Architecture](image/FX Insight - System Architecture.drawio.png)
 
 
 ### Tech Stack
