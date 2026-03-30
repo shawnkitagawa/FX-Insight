@@ -8,7 +8,6 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ## 📸 Screenshots
 
-> (Add your screenshots here)
 
 - Login Screen  
 - Converter Dashboard  
@@ -58,10 +57,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 ---
 
 ## 🧱 Architecture
-UI (Jetpack Compose)
-→ ViewModel (StateFlow)
-→ Repository
-→ API (Exchange Rate) / Supabase (Auth + DB)
+![Architecture](image/FX Insight - System Architecture.drawio.png)
 
 
 ### Tech Stack
