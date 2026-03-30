@@ -142,24 +142,12 @@ This project demonstrates:
 
 ---
 
-## 🔥 Portfolio Value
-
-FX Insight is more than a basic converter.
-
-It showcases:
-- Product thinking  
-- Clean engineering practices  
-- Real-world feature integration  
-- AI-enhanced UX  
-
----
 
 ## 📌 Future Improvements
 
 - Currency search dropdown  
 - Flag icons  
-- Pull-to-refresh  
-- Offline caching  
+- Pull-to-refresh   
 - Dark mode polish  
 
 ---
