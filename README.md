@@ -1,4 +1,4 @@
-# 🚀 FX Insight — Currency Converter + Analysis App
+#  FX Insight — Currency Converter + Analysis App
 
 FX Insight is a modern Android finance app that allows users to convert currencies in real time, track personal conversion history, and understand short-term exchange trends through rule-based and AI-enhanced insights.
 
@@ -6,7 +6,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 - Login Screen  
 - Converter Dashboard  
@@ -15,47 +15,47 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-## ✨ Features
+##  Features
 
-### 💱 Currency Conversion
+###  Currency Conversion
 - Real-time exchange rate conversion  
 - Swap currencies instantly  
 - Live result updates  
 - Rate timestamp display  
 
-### 📊 Analysis Engine
+###  Analysis Engine
 - Daily & 7-day percentage change  
 - High / Low range  
 - Trend direction (Upward / Downward / Stable)  
 - Rule-based explanation  
 
-### 🤖 AI Insight (Lightweight)
+###  AI Insight (Lightweight)
 - Short AI-generated summary  
 - Based on calculated data (not raw prompts)  
 - No financial advice or prediction  
 
-### 🕘 History Tracking
+###  History Tracking
 - Save recent conversions (Supabase)  
 - Tap to reuse past conversions  
 - Delete / clear history  
 
-### ⭐ Favorites
+###  Favorites
 - Save frequently used currency pairs  
 - Quick access for fast conversions  
 
-### 🔐 Authentication
+###  Authentication
 - User signup and login  
 - Persistent session  
 - User-specific data  
 
-### ⚠️ State Handling
+### State Handling
 - Loading / Error / Empty states  
 - Input validation  
 - Retry support  
 
 ---
 
-## 🧱 Architecture
+##  Architecture
 ![Architecture](image/fx-insight-architecture.png)
 
 
@@ -69,7 +69,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-## 🗄️ Database (Supabase)
+##  Database (Supabase)
 
 ### profiles
 - user_id  
@@ -95,7 +95,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-## 🎯 Project Goals
+##  Project Goals
 
 This project demonstrates:
 
@@ -107,7 +107,7 @@ This project demonstrates:
 
 ---
 
-## 📱 Screens
+##  Screens
 
 - Auth (Login / Signup)  
 - Converter Dashboard  
@@ -115,7 +115,7 @@ This project demonstrates:
 
 ---
 
-## 🚧 Scope Control
+##  Scope Control
 
 ### Included
 - Currency conversion  
@@ -132,7 +132,7 @@ This project demonstrates:
 
 ---
 
-## 🧠 Key Learnings
+##  Key Learnings
 
 - Handling async operations with coroutines  
 - Managing UI state (Loading / Error / Success)  
@@ -143,7 +143,7 @@ This project demonstrates:
 ---
 
 
-## 📌 Future Improvements
+##  Future Improvements
 
 - Currency search dropdown  
 - Flag icons  
