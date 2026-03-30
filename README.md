@@ -59,20 +59,18 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
+###  Architecture
+![Architecture](image/Fx-Insight-System Architecture.png)
 
-##  Architecture
-![Architecture](image/fx-insight-architecture.png)
+###  System Flow 
 
-##  System Flow 
-  #Auth Flow 
-
-  Sign Up
+ ## Sign Up
   ![System Design](image/Authentication-Flow-SignUP-2026-03-30-015121.png)
   
-  Sign In
+ ## Sign In
   ![System Design](image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
 
-  DataFlow & Caching Strategy 
+ ## DataFlow & Caching Strategy 
   ![Data Flow](image/Data-Flow-&-Caching-Strategy-2026-03-30-074537.png)
 
 
