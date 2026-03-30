@@ -9,7 +9,6 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ## Screenshots
 
-##  Screenshots
 
 
 - Login Screen  
