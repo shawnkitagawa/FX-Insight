@@ -60,7 +60,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 ---
 
 ###  Architecture
-![Architecture](image/Fx-Insight-System Architecture.png)
+![Architecture](image/Fx-Insight-System-Architecture.png)
 
 ###  System Flow 
 
