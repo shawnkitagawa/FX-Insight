@@ -70,7 +70,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
   ![System Design](image/Authentication-Flow-SignUP-2026-03-30-015121.png)
   
   Sign In
-  ![System Design](image/Authentication-Flow -Sign-in-2026-03-30-012727.png)
+  ![System Design](image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
   
 
 ## 🧱 Architecture
