@@ -58,6 +58,16 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 ##  Architecture
 ![Architecture](image/fx-insight-architecture.png)
 
+##  System Flow 
+  #Auth Flow 
+
+  Sign Up
+  ![System Design](image/Authentication Flow SignUP-2026-03-30-015121.png)
+  
+  Sign In
+  ![System Design](image/Authentication Flow -Sign in-2026-03-30-012727.png)
+  
+
 
 ### Tech Stack
 - Kotlin  
