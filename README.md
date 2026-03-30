@@ -6,12 +6,11 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-<<<<<<< HEAD
+
 ## Screenshots
-=======
+
 ## 📸 Screenshots
 
->>>>>>> a286583 (Update README with architecture image and remove placeholder)
 
 - Login Screen  
 - Converter Dashboard  
@@ -60,7 +59,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-<<<<<<< HEAD
+
 ##  Architecture
 ![Architecture](image/fx-insight-architecture.png)
 
@@ -73,10 +72,9 @@ Built with a focus on **clean architecture, real-world data handling, and produc
   Sign In
   ![System Design](image/Authentication Flow -Sign in-2026-03-30-012727.png)
   
-=======
+
 ## 🧱 Architecture
 ![Architecture](image/FX Insight - System Architecture.drawio.png)
->>>>>>> a286583 (Update README with architecture image and remove placeholder)
 
 
 ### Tech Stack
