@@ -56,7 +56,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 ---
 
 ## 🧱 Architecture
-![Architecture](image/FX Insight - System Architecture.drawio.png)
+![Architecture](image/fx-insight-architecture.png)
 
 
 ### Tech Stack
