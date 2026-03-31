@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("com.google.devtools.ksp")
+    kotlin("plugin.serialization") version "2.2.20"
 }
 
 android {
@@ -68,4 +70,33 @@ dependencies {
     // vico for graph
     implementation("com.patrykandpatrick.vico:compose:2.0.0")
     implementation("com.patrykandpatrick.vico:compose-m3:2.0.0")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+
+    // Coroutines
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
+
+    // Navigation
+    implementation("androidx.navigation:navigation-compose:2.7.7")
+
+    // Material Theme builder
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-text-google-fonts")
+
+    // Room
+    implementation("androidx.room:room-runtime:2.6.1")
+    implementation("androidx.room:room-ktx:2.6.1")
+    ksp("androidx.room:room-compiler:2.6.1")
+
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // supabase
+    implementation(platform("io.github.jan-tennert.supabase:bom:3.4.1"))
+    implementation("io.github.jan-tennert.supabase:auth-kt:2.4.2")
+    implementation("io.github.jan-tennert.supabase:postgrest-kt")
+    implementation("io.ktor:ktor-client-android:3.4.1")
+
 }
