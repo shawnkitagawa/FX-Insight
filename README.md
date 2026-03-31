@@ -2,8 +2,6 @@
 
 FX Insight is a modern Android finance app that allows users to convert currencies in real time, track personal conversion history, and understand short-term exchange trends through rule-based and AI-enhanced insights.
 
-Built with a focus on **clean architecture, real-world data handling, and production-ready UX**.
-
 ---
 
 
@@ -78,7 +76,7 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 - Jetpack Compose  
 - ViewModel + StateFlow  
 - Coroutines  
-- Retrofit / Ktor  
+- Retrofit  
 - Supabase (Auth + Database)  
 
 ---
