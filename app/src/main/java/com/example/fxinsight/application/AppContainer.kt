@@ -1,8 +1,8 @@
 package com.example.fxinsight.application
 
 import android.content.Context
-import com.example.fxinsight.data.repositiory.DefaultFXInsightRepositiory
-import com.example.fxinsight.data.repositiory.FXInsightRepository
+import com.example.fxinsight.data.repository.DefaultFXInsightRepository
+import com.example.fxinsight.data.repository.FXInsightRepository
 import io.github.jan.supabase.auth.Auth
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
@@ -28,7 +28,7 @@ class DefaultAppContainer(private val context: Context): AppContainer
     }
 
     override val fxInsightRepository: FXInsightRepository by lazy{
-        DefaultFXInsightRepositiory(supabase = supabase)
+        DefaultFXInsightRepository(supabase = supabase)
     }
 
 }

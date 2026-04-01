@@ -28,7 +28,7 @@ import com.example.fxinsight.ui.theme.FXInsightTheme
 
 @Composable
 fun WelcomeScreen(modifier: Modifier = Modifier,
-                  navToNext: () -> Unit)
+                  clickWelcomeButton: () -> Unit)
 {
     Column(modifier = Modifier.fillMaxSize().padding(top = 100.dp), horizontalAlignment = Alignment.CenterHorizontally)
     {
@@ -52,7 +52,7 @@ fun WelcomeScreen(modifier: Modifier = Modifier,
             Text("Clear Fx rates, fast conversions")
         }
        Button(
-           onClick = navToNext,  // viewmodel function that check logged in or not
+           onClick = clickWelcomeButton,  // viewmodel function that check logged in or not
            modifier = Modifier.padding(horizontal = 32.dp).fillMaxWidth()
 
        )

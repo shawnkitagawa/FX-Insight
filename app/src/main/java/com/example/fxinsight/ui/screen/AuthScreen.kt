@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
@@ -26,6 +27,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fxinsight.R
+import com.example.fxinsight.model.uistate.AuthPage
 import com.example.fxinsight.ui.theme.FXInsightTheme
 
 
@@ -33,84 +35,155 @@ import com.example.fxinsight.ui.theme.FXInsightTheme
 // login ,
 // SIgn up!!!!!!!!!!
 @Composable
-fun AuthScreen(modifier: Modifier = Modifier,
-               navToNext: () -> Unit)
-{
-    // when the Auth State is login show the login
-    // If the Auth State is sign up then we show sign up
-    // and add a username and modify the Signin composable
-    // both using the same composable
-    Signin(navToNext = navToNext)
+fun AuthScreen(
+    modifier: Modifier = Modifier,
+    email: String,
+    password: String,
+    username: String,
+    updateEmail: (String) -> Unit,
+    updatePassword: (String) -> Unit,
+    updateUserName: (String) -> Unit,
+    isSignUp: () -> Unit,
+    signIn: (String, String) -> Unit,
+    signUp: (String, String, String) -> Unit,
+    currentAuthPage: AuthPage,
+    errorMessage: String?
+) {
+    Sign(
+        email = email,
+        password = password,
+        username = username,
+        updateEmail = updateEmail,
+        updatePassword = updatePassword,
+        updateUserName = updateUserName,
+        isSignUp = isSignUp,
+        signIn = signIn,
+        signUp = signUp,
+        currentAuthPage = currentAuthPage,
+        errorMessage = errorMessage
+    )
 }
 
 @Composable
-fun Signin(modifier: Modifier = Modifier,
-           navToNext: () -> Unit )
-{
-    Column(horizontalAlignment = Alignment.CenterHorizontally)
-    {
-
+fun Sign(
+    modifier: Modifier = Modifier,
+    email: String,
+    password: String,
+    username: String,
+    updateEmail: (String) -> Unit,
+    updatePassword: (String) -> Unit,
+    updateUserName: (String) -> Unit,
+    isSignUp: () -> Unit,
+    signIn: (String, String) -> Unit,
+    signUp: (String, String, String) -> Unit,
+    currentAuthPage: AuthPage,
+    errorMessage: String?
+) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
         Column(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
-        )
-        {
+        ) {
             Image(
                 painter = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = "auth image"
             )
-            Text("FX insight")
-            Text("Login to FX Insight Account")
 
+            Text("FX Insight")
+
+            Text(
+                if (currentAuthPage == AuthPage.signUp) {
+                    "Create your FX Insight account"
+                } else {
+                    "Login to FX Insight Account"
+                }
+            )
         }
-        var text by remember { mutableStateOf("") }
 
-        Column(modifier = Modifier.padding(horizontal = 24.dp))
-        {
+        Column(modifier = Modifier.padding(horizontal = 24.dp)) {
+
+            if (currentAuthPage == AuthPage.signUp) {
+                Text("User Name")
+                TextField(
+                    value = username,
+                    onValueChange = updateUserName,
+                    placeholder = { Text("Enter your username") },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clip(CircleShape)
+                        .height(55.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+
             Text("Email Address")
             TextField(
-                value = text,
-                onValueChange = { text = it },
+                value = email,
+                onValueChange = updateEmail,
                 placeholder = { Text("you@example.com") },
-                modifier = Modifier.fillMaxWidth().clip(CircleShape).height(55.dp)
-
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(CircleShape)
+                    .height(55.dp)
             )
+
             Spacer(modifier = Modifier.height(16.dp))
+
             Text("Password")
             TextField(
-                value = text,
-                onValueChange = { text = it },
+                value = password,
+                onValueChange = updatePassword,
                 placeholder = { Text("At least 8 characters") },
-                modifier = Modifier.fillMaxWidth().clip(CircleShape).height(55.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(CircleShape)
+                    .height(55.dp)
             )
-            Spacer(modifier = Modifier.height(16.dp).height(55.dp))
-            Button(
-                onClick = navToNext, // check if the auhtentication passed or not update the state
-                modifier = Modifier.fillMaxWidth()
 
-            )
-            {
-                Text("Create")
+            Spacer(modifier = Modifier.height(16.dp))
+
+            Button(
+                onClick = {
+                    if (currentAuthPage == AuthPage.signUp) {
+                        signUp(email, password, username)
+                    } else {
+                        signIn(email, password)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    if (currentAuthPage == AuthPage.signUp) {
+                        "Create"
+                    } else {
+                        "Sign In"
+                    }
+                )
             }
-            Row(modifier = Modifier.fillMaxWidth(),horizontalArrangement = Arrangement.Center)
-            {
-                Text("Don't have an account?")
-                Spacer(modifier.width(8.dp))
-                Text(text = "Sign up",
-                    modifier = Modifier.clickable(
-                        onClick = {} // state to check sign up or login to toggle this composable
-                    ))
+
+            if (currentAuthPage != AuthPage.signUp) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Text("Don't have an account?")
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Sign up",
+                        modifier = Modifier.clickable(onClick = isSignUp)
+                    )
+                }
+            }
+
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage,
+                    color = MaterialTheme.colorScheme.error
+                )
             }
         }
     }
-}
-
-
-@Composable
-fun SignUp()
-{
-
 }
 
 
