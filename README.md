@@ -70,6 +70,9 @@ FX Insight is a modern Android finance app that allows users to convert currenci
  ## DataFlow & Caching Strategy 
   ![Data Flow](androidapp/image/Data-Flow-&-Caching-Strategy-2026-03-30-084233.png)
 
+## Entity-Relationship Diagram
+  ![Database](androidapp/image/drawSQL-image-export-2026-04-05.jpg)
+
 
 ### Tech Stack
 - Kotlin  

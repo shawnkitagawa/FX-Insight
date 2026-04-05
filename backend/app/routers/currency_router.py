@@ -58,8 +58,6 @@ def currency_information(base: str)-> dict:
     return data
 
 
-
-
 # currency exchange 
 @router.get("/{base}/{target}/{target_amount}")
 def convert_currency(base: str, target: str, target_amount: float)-> dict: 
@@ -99,13 +97,27 @@ def alert_notification(base: str, target: str, alert:float, alertconfiguration: 
     
     return data 
 
-
-
 @router.get("/{base}/{target}/market")
-def historical_graph(base: str, target: str,time_group): 
+def historical_graph(base: str, target: str,time_group: TimeGroup) -> dict: 
 
+    data = {}
+    if time_group == TimeGroup.DAY: 
+        data = one_month_market(base, target)
+    elif time_group == TimeGroup.WEEK: 
+        data = six_month_market(base, target)
+    else: 
+        data = one_year_market(base, target)
 
-# # Still working on it F
+    if not data:
+        raise HTTPException(status_code=404, detail = "Failed to fetch market")
+    
+    return data
+
+# insert favorite 
+# insert alert 
+# history 
+
+# Still working on it F
 # @router.post("/alerts")
 # def create_alert(alert:AlertCreate):
 #     save_to_db(alert) 
