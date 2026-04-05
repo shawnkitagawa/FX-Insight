@@ -57,18 +57,18 @@ FX Insight is a modern Android finance app that allows users to convert currenci
 ---
 
 ###  Architecture
-![Architecture](image/Fx-Insight-System-Architecture.png)
+![Architecture](androidapp/image/Fx-Insight-System-Architecture.png)
 
 ###  System Flow 
 
  ## Sign Up
-  ![System Design](image/Authentication-Flow-SignUP-2026-03-30-015121.png)
+  ![System Design](androidapp/image/Authentication-Flow-SignUP-2026-03-30-015121.png)
   
  ## Sign In
-  ![System Design](image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
+  ![System Design](androidapp/image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
 
  ## DataFlow & Caching Strategy 
-  ![Data Flow](image/Data-Flow-&-Caching-Strategy-2026-03-30-084233.png)
+  ![Data Flow](androidapp/image/Data-Flow-&-Caching-Strategy-2026-03-30-084233.png)
 
 
 ### Tech Stack
