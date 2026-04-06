@@ -143,3 +143,4 @@ zipp==3.23.0
 requests
 apscheduler
 sqlalchemy
+python-jose[cryptography]
