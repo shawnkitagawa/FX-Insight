@@ -7,7 +7,7 @@ from jose import jwt, JWTError
 security = HTTPBearer()
 SUPABASE_URL = "https://nilbmddhnsvndzrahbmk.supabase.co"
 
-
+#fetching the key from supabase 
 def get_jwks(): 
     response = httpx.get(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
     return response.json()
@@ -18,13 +18,12 @@ def get_current_user_id(
 ) -> UUID:
     token = credentials.credentials
 
-
     try: 
         jwks = get_jwks()
         payload = jwt.decode(
             token, 
             jwks, 
-            algorithms=["R256"], 
+            algorithms=["RS256"], 
             audience = "authenticated"
         )
 
@@ -32,7 +31,15 @@ def get_current_user_id(
 
         if not user_id: 
             raise HTTPException(status_code = 401, detail = "Invalid token")
-        return UUID(user_id)
+        
+        try: 
+            
+         return UUID(user_id)
+         
+    
+        except ValueError: 
+            raise HTTPException(status_code=401, detail = "Invalid user ID format")
 
     except: 
         raise HTTPException(status_code=401, detail = "Invalid or expired token")
+        

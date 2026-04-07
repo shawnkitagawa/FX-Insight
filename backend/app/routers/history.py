@@ -8,7 +8,8 @@ from sqlalchemy.orm import Session
 from fastapi import Depends
 from app.database.db import History
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.dialects.postgresql import UUID
+from uuid import UUID
+from app.core.secruity import get_current_user_id
 
 # class HistoryCreate(BaseModel): 
 #     user_id: UUID
@@ -53,9 +54,9 @@ router = APIRouter(prefix = "/history", tags = ["history"])
 
 
 @router.post("/", response_model = HistoryResponse)
-def create_history(create: HistoryCreate, db:Session = Depends(get_db)):
+def create_history(create: HistoryCreate, db:Session = Depends(get_db), user_id: UUID = Depends(get_current_user_id)):
     new_history = History(
-        user_id = create.user_id, 
+        user_id = user_id, 
         base_currency = create.base_currency, 
         target_currency = create.target_currency, 
         base_amount = create.base_amount, 
@@ -73,7 +74,7 @@ def create_history(create: HistoryCreate, db:Session = Depends(get_db)):
     
 
 @router.get("/me", response_model = list[HistoryResponse])
-def fetch_history(user_id: UUID, db: Session = Depends(get_db)):
+def fetch_history(user_id:UUID = Depends(get_current_user_id), db: Session = Depends(get_db)):
 
     current_history = db.query(History).filter(History.user_id == user_id).all()
 

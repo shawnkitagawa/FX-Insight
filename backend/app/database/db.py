@@ -1,7 +1,7 @@
 from sqlalchemy import Column, String, Boolean, DateTime, ForeignKey, Numeric, CheckConstraint, UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql import func , text
-import uuid
+
 
 from app.database.base import Base
 
@@ -14,7 +14,7 @@ class Profile(Base):
     user_name = Column(String(255), nullable = False, unique = True)
 
 class Favorite(Base): 
-    __tablebname__ = "favorite"
+    __tablename__ = "favorite"
 
     id = Column(UUID(as_uuid = True), primary_key= True, server_default=text("gen_random_uuid()"))
     user_id = Column(UUID(as_uuid=True),ForeignKey("profile.user_id", ondelete = "CASCADE"), nullable= False)
@@ -22,8 +22,8 @@ class Favorite(Base):
     target_currency = Column(String(10), nullable= False)
     created_at = Column(DateTime(timezone= True), nullable= False, server_default= func.now())
 
-    _table_args__ = (
-        UniqueConstraint("user_id", "base_currency", "target_currency", name = "favorite_user_currency_unique")
+    __table_args__ = (
+        UniqueConstraint("user_id", "base_currency", "target_currency", name = "favorite_user_currency_unique"),
     )
 
 class History(Base): 

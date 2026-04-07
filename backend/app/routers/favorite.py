@@ -6,9 +6,10 @@ from schemas import FavoriteCreate, FavoriteResponse
 from app.database.base import get_db
 from app.database.db import Favorite
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.dialects.postgresql import UUID
+from uuid import UUID
 from sqlalchemy.orm import Session
 from fastapi import Depends
+from app.core.secruity import get_current_user_id
 
 # class FavoriteCreate(BaseModel): 
 #     user_id: UUID
@@ -32,10 +33,10 @@ app = FastAPI()
 router = APIRouter(prefix = "/favorite", tags = ["favorite"] )
 
 @router.post("/", response_model = FavoriteResponse)
-def create_favorite(create: FavoriteCreate, db: Session = Depends(get_db)): 
+def create_favorite(create: FavoriteCreate, db: Session = Depends(get_db), user_id: UUID = Depends(get_current_user_id)): 
 
     new_favorite = Favorite(
-        user_id = create.user_id, 
+        user_id = user_id, 
         base_currency = create.base_currency, 
         target_currency = create.target_currency
     )
@@ -53,7 +54,7 @@ def create_favorite(create: FavoriteCreate, db: Session = Depends(get_db)):
         )
     
 @router.get("/me", response_model = list[FavoriteResponse])
-def fetch_favorite(user_id: UUID, db: Session = Depends(get_db)): 
+def fetch_favorite(user_id: UUID = Depends(get_current_user_id), db: Session = Depends(get_db)): 
     favorites = db.query(Favorite).filter(Favorite.user_id == user_id).all()
 
 

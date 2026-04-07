@@ -5,12 +5,11 @@ from pydantic import BaseModel, ValidationError
 from schemas import ProfileCreate, ProfileResponse
 from app.database.db import Profile
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.dialects.postgresql import UUID
+from uuid import UUID
 from sqlalchemy.orm import Session
 from fastapi import Depends
 from app.database.base import get_db
-
-
+from app.core.secruity import get_current_user_id
 
 
 app = FastAPI()
@@ -19,9 +18,9 @@ router = APIRouter(prefix = "/profile", tags = ["profile"] )
 
 
 @router.post("/", response_model= ProfileResponse)
-def create_profile(create: ProfileCreate, db: Session = Depends(get_db)):
+def create_profile(create: ProfileCreate, db: Session = Depends(get_db), user_id: UUID = Depends(get_current_user_id)):
     new_profile = Profile(
-        user_id = create.user_id, 
+        user_id = user_id, 
         user_name = create.user_name
     )
 
@@ -35,8 +34,11 @@ def create_profile(create: ProfileCreate, db: Session = Depends(get_db)):
         raise HTTPException(status_code=400, detail = "Favorite already exists or invalid user")
     
 @router.get("/me", response_model = ProfileResponse)
-def fetch_profile(user_id: UUID, db: Session = Depends(get_db)):
-    profile = db.query(Profile).filter(Profile.user_id == user_id)
+def fetch_profile(user_id: UUID =  Depends(get_current_user_id), db: Session = Depends(get_db)):
+    profile = db.query(Profile).filter(Profile.user_id == user_id).first()
+
+    if profile is None: 
+        raise HTTPException(status_code=404, detail= "Profile not found")
 
     return profile 
 

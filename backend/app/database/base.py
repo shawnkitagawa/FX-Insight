@@ -3,7 +3,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 
-DATABASE_URL = "URL"
+DATABASE_URL = "postgresql+psycopg2://postgres:Shawn550@@34.84.248.161:5432/postgres"
 
 
 # Connection to PostgreSQL Creagte a connection tool like a cable

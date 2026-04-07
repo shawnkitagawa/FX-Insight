@@ -10,7 +10,6 @@ class DirectionStatus(str, Enum):
     BELOW ="below"
 
 class ProfileCreate(BaseModel): 
-    user_id: UUID
     user_name: str
 
 class ProfileResponse(BaseModel): 
@@ -22,7 +21,6 @@ class ProfileResponse(BaseModel):
 
 
 class FavoriteCreate(BaseModel): 
-    user_id: UUID
     base_currency: str
     target_currency: str 
 
@@ -38,7 +36,6 @@ class FavoriteResponse(BaseModel):
         from_attributes = True 
 
 class HistoryCreate(BaseModel): 
-    user_id: UUID
     base_currency: str
     target_currency:str 
     base_amount: Decimal
@@ -60,13 +57,15 @@ class HistoryResponse(BaseModel):
         from_attributes = True 
 
 class AlertCreate(BaseModel): 
-    user_id: UUID
     alert_target: Decimal
     direction: DirectionStatus
     base_currency: str
     target_currency: str
     is_active: bool = True
 
+class AlertUpdate(BaseModel):
+    is_active: bool | None = None 
+    alert_target: Decimal | None = None
 
 
 class AlertResponse(BaseModel): 
