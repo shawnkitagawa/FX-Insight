@@ -39,8 +39,6 @@ class HistoryCreate(BaseModel):
     base_currency: str
     target_currency:str 
     base_amount: Decimal
-    converted_amount: Decimal 
-    rate: Decimal
     
 
 class HistoryResponse(BaseModel): 
@@ -79,6 +77,8 @@ class AlertResponse(BaseModel):
     target_currency: str
     is_active: bool
     created_at: datetime
+    is_triggered: bool 
+    triggered_at: datetime | None 
 
     class Config: 
         from_attributes = True 

@@ -1,6 +1,9 @@
 import requests
-from datetime import datetime, timezone, date, timedelta
+from datetime import date
 from dateutil.relativedelta import relativedelta
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
+from decimal import Decimal
 
   # BASE layer START ----------------------------------
 
@@ -8,9 +11,14 @@ def available_currency():
     url = "https://api.frankfurter.dev/v2/currencies"
     response = requests.get(url)
     data = response.json()
+    currency = set()
+    for i in data: 
+        currency.add(i["iso_code"])
 
 
-    return data 
+    return currency
+
+print(available_currency())
 
 
 
@@ -32,6 +40,8 @@ def target_rate(base : str, target : str):
     print(data)
 
     return data 
+
+target_rate("USD", "JPY")
 
 
 
@@ -109,13 +119,14 @@ def six_month_market(base, target):
 
     return time_range_search(six_month_ago.strftime("%Y-%m-%d"), today.strftime("%Y-%m-%d"), base, target, group = "week")
 
-
 # func for one year WORK
 def one_year_market(base, target):
     today = date.today()
     one_year_ago = today - relativedelta(years= 1 )
 
     return time_range_search(one_year_ago, today, base, target, "month")
+
+# print(one_year_market("USD", "JPY"))
 
 
 # func that displays the currency rate , result caluclation and the currency sykbol WORK
@@ -127,7 +138,7 @@ def currency_exchange(base, target, base_amount):
     print(f"the daily exchange is {daily_exchange}")
     currency_exchange = daily_exchange
 
-    daily_exchange = daily_exchange["rate"]
+    daily_exchange = Decimal(daily_exchange["rate"])
     target_total = daily_exchange * base_amount 
 
     base_information = get_currency_information(base) 
@@ -149,6 +160,7 @@ def currency_exchange(base, target, base_amount):
     # Alert 
     print(f"curency_exchange{ currency_exchange}")
     return currency_exchange
+
 
 
 
@@ -231,11 +243,6 @@ def alert_check(alert_target, base, target, alert_configuratoin):
 
     return message
 
-# print(alert_check(155, "USD", "JPY", "above"))
-    
-
-
-# Store history and displays it later in database
 
 # fun that stores the Alert require run every day every 1:00 to 2:00 
 

@@ -16,3 +16,5 @@ apscheduler
 python-dateutil
 
 httpx
+
+supabase
