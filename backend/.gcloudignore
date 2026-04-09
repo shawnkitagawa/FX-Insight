@@ -1,3 +1,13 @@
+# Ignore everything from gitignore
+.gitignore
+
+# Python
 .venv/
+
+# Env files
 .env
 backend/.env
+
+# Git files
+.git
+.gitignore
