@@ -33,7 +33,7 @@ def get_current_user_id(
         payload = jwt.decode(
             token, 
             jwks, 
-            algorithms=["ES256"], 
+            algorithms=["ES256"],  # algorithm confusion attack
             audience = "authenticated"
         )
 

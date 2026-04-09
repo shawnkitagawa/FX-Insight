@@ -9,6 +9,6 @@ env_path = BASE_DIR/ ".env"
 load_dotenv(env_path)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
-SERVICE_ROLE_KEY = os.getenv("SERVICE_ROLE_KEY")
+SUPABASE_SECRET_KEY= os.getenv("SECRET_KEY")
 
-supabase: Client = create_client(SUPABASE_URL, SERVICE_ROLE_KEY)
+supabase: Client = create_client(SUPABASE_URL, SUPABASE_SECRET_KEY)
