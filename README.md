@@ -1,14 +1,13 @@
-# 🚀 FX Insight — Currency Converter + Analysis App
+#  FX Insight — Currency Converter + Analysis App
 
 FX Insight is a modern Android finance app that allows users to convert currencies in real time, track personal conversion history, and understand short-term exchange trends through rule-based and AI-enhanced insights.
 
-Built with a focus on **clean architecture, real-world data handling, and production-ready UX**.
-
 ---
 
-## 📸 Screenshots
 
-> (Add your screenshots here)
+## Screenshots
+
+
 
 - Login Screen  
 - Converter Dashboard  
@@ -17,51 +16,62 @@ Built with a focus on **clean architecture, real-world data handling, and produc
 
 ---
 
-## ✨ Features
+##  Features
 
-### 💱 Currency Conversion
+###  Currency Conversion
 - Real-time exchange rate conversion  
 - Swap currencies instantly  
 - Live result updates  
 - Rate timestamp display  
 
-### 📊 Analysis Engine
+###  Analysis Engine
 - Daily & 7-day percentage change  
 - High / Low range  
 - Trend direction (Upward / Downward / Stable)  
 - Rule-based explanation  
 
-### 🤖 AI Insight (Lightweight)
+###  AI Insight (Lightweight)
 - Short AI-generated summary  
 - Based on calculated data (not raw prompts)  
 - No financial advice or prediction  
 
-### 🕘 History Tracking
+###  History Tracking
 - Save recent conversions (Supabase)  
 - Tap to reuse past conversions  
 - Delete / clear history  
 
-### ⭐ Favorites
+###  Favorites
 - Save frequently used currency pairs  
 - Quick access for fast conversions  
 
-### 🔐 Authentication
+###  Authentication
 - User signup and login  
 - Persistent session  
 - User-specific data  
 
-### ⚠️ State Handling
+### State Handling
 - Loading / Error / Empty states  
 - Input validation  
 - Retry support  
 
 ---
 
-## 🧱 Architecture
-UI (Jetpack Compose)
-→ ViewModel (StateFlow)
-→ Repository
-→ API (Exchange Rate) / Supabase (Auth + DB)
+###  Architecture
+![Architecture](androidapp/image/Fx-Insight-System-Architecture.png)
+
+###  System Flow 
+
+ ## Sign Up
+  ![System Design](androidapp/image/Authentication-Flow-SignUP-2026-03-30-015121.png)
+  
+ ## Sign In
+  ![System Design](androidapp/image/Authentication-Flow-Sign-in-2026-03-30-012727.png)
+
+ ## DataFlow & Caching Strategy 
+  ![Data Flow](androidapp/image/Data-Flow-&-Caching-Strategy-2026-03-30-084233.png)
+
+## Entity-Relationship Diagram
+  ![Database](androidapp/image/drawSQL-image-export-2026-04-05.jpg)
 
 
 ### Tech Stack
@@ -69,12 +79,12 @@ UI (Jetpack Compose)
 - Jetpack Compose  
 - ViewModel + StateFlow  
 - Coroutines  
-- Retrofit / Ktor  
+- Retrofit  
 - Supabase (Auth + Database)  
 
 ---
 
-## 🗄️ Database (Supabase)
+##  Database (Supabase)
 
 ### profiles
 - user_id  
@@ -100,7 +110,7 @@ UI (Jetpack Compose)
 
 ---
 
-## 🎯 Project Goals
+##  Project Goals
 
 This project demonstrates:
 
@@ -112,7 +122,7 @@ This project demonstrates:
 
 ---
 
-## 📱 Screens
+##  Screens
 
 - Auth (Login / Signup)  
 - Converter Dashboard  
@@ -120,7 +130,7 @@ This project demonstrates:
 
 ---
 
-## 🚧 Scope Control
+##  Scope Control
 
 ### Included
 - Currency conversion  
@@ -137,7 +147,7 @@ This project demonstrates:
 
 ---
 
-## 🧠 Key Learnings
+##  Key Learnings
 
 - Handling async operations with coroutines  
 - Managing UI state (Loading / Error / Success)  
@@ -147,24 +157,12 @@ This project demonstrates:
 
 ---
 
-## 🔥 Portfolio Value
 
-FX Insight is more than a basic converter.
-
-It showcases:
-- Product thinking  
-- Clean engineering practices  
-- Real-world feature integration  
-- AI-enhanced UX  
-
----
-
-## 📌 Future Improvements
+##  Future Improvements
 
 - Currency search dropdown  
 - Flag icons  
-- Pull-to-refresh  
-- Offline caching  
+- Pull-to-refresh   
 - Dark mode polish  
 
 ---
