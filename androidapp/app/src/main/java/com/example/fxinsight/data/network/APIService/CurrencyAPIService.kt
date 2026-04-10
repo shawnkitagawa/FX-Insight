@@ -39,6 +39,6 @@ interface CurrencyAPIService {
 
         @Query("time_group") timeGroup: TimeGroup
 
-    ): HistoricalGraphResponse
+    ): List<HistoricalGraphResponse>
 
 }

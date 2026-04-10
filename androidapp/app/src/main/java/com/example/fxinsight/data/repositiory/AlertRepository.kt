@@ -34,22 +34,70 @@ class DefaultAlertRepository(private val alertAPIService: AlertAPIService
 ): AlertRepository {
 
     override suspend fun createAlert(create: AlertCreate): Result<AlertResponse> {
-        TODO("Not yet implemented")
+        try{
+            val alert = alertAPIService.createAlert(create)
+
+            return Result.success(alert)
+
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun updateAlert(alertId: String, update: AlertUpdate): Result<AlertResponse> {
-        TODO("Not yet implemented")
+        try{
+            val updatedAlert = alertAPIService.updateAlert(alertId = alertId, update = update)
+
+
+            return Result.success(updatedAlert)
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun fetchAlerts(): Result<List<AlertResponse>> {
-        TODO("Not yet implemented")
+        try{
+            val alerts = alertAPIService.fetchAlert()
+
+
+            return Result.success(alerts)
+
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteAlert(alertId: String): Result<DeleteAlertResponse> {
-        TODO("Not yet implemented")
+        try{
+            val alert = alertAPIService.deleteAlert(alertId = alertId)
+
+
+            return Result.success(alert)
+
+        }
+        catch(e: Exception){
+
+            return Result.failure(e)
+
+        }
     }
 
     override suspend fun deleteAllAlerts(): Result<DeleteAllAlertResponse> {
-        TODO("Not yet implemented")
+        try{
+            val message = alertAPIService.deleteAllAlert()
+
+            return Result.success(message)
+
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 }

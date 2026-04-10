@@ -26,18 +26,57 @@ interface HistoryRepository{
 class DefaultHistoryRepository(private val historyAPIService: HistoryAPIService
 ): HistoryRepository {
     override suspend fun createHistory(create: HistoryCreate): Result<HistoryResponse> {
-        TODO("Not yet implemented")
+        try {
+            val history = historyAPIService.createHistory(create)
+
+
+
+            return Result.success(history )
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun fetchHistories(): Result<List<HistoryResponse>> {
-        TODO("Not yet implemented")
+
+        try{
+            val histories = historyAPIService.fetchHistory()
+
+            return Result.success(histories)
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteHistory(history_id: String): Result<DeleteHistoryResponse> {
-        TODO("Not yet implemented")
+        try{
+            val message = historyAPIService.deleteHistory(history_id)
+
+
+            return Result.success(message)
+        }
+        catch(e: Exception){
+
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteAllHistories(): Result<DeleteAllHistoryResponse> {
-        TODO("Not yet implemented")
+        try{
+            val message = historyAPIService.deleteAllHistory()
+
+            return Result.success(message)
+
+        }
+        catch(e: Exception)
+        {
+
+            return Result.failure(e)
+
+        }
     }
 }

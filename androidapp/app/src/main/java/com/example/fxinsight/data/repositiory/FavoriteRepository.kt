@@ -27,19 +27,53 @@ class DefaultFavoriteRepository(private val favoriteAPIService: FavoriteAPIServi
 ): FavoriteRepository {
 
     override suspend fun createFavorite(create: FavoriteCreate): Result<FavoriteResponse> {
-        TODO("Not yet implemented")
+        try{
+            val favorite = favoriteAPIService.createFavorite(create)
+
+
+            return Result.success(favorite)
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun fetchFavorites(): Result<List<FavoriteResponse>> {
-        TODO("Not yet implemented")
+        try{
+            val favorites = favoriteAPIService.fetchFavorite()
+
+
+            return Result.success(favorites)
+
+        }
+        catch(e: Exception){
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteAllFavorites(): Result<DeleteAllFavoriteResponse> {
-        TODO("Not yet implemented")
+        try{
+            val message = favoriteAPIService.deleteAllFavorite()
+
+            return Result.success(message)
+        }
+        catch(e: Exception)
+        {
+            return Result.failure(e)
+        }
     }
 
     override suspend fun deleteFavorite(favoriteId: String): Result<DeleteFavoriteResponse> {
-        TODO("Not yet implemented")
+        try{
+            val message = favoriteAPIService.deleteFavorite(favoriteId)
+
+            return Result.success(message)
+        }
+        catch(e: Exception){
+
+            return Result.failure(e)
+        }
     }
 
 }

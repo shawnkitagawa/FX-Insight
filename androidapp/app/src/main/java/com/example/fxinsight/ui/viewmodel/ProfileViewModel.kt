@@ -7,8 +7,16 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fxinsight.application.FXInsightApplication
 import com.example.fxinsight.data.repositiory.ProfileRepository
 import com.example.fxinsight.data.repository.FXInsightRepository
+import com.example.fxinsight.ui.uistate.ProfileUiState
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class ProfileViewModel(private val repository: ProfileRepository): ViewModel() {
+
+    private val _uiState = MutableStateFlow(ProfileUiState())
+    val uiState: StateFlow<ProfileUiState> = _uiState
+
+
 
 
 

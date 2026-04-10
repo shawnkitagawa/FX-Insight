@@ -5,7 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DeleteAlertResponse (
-    val message: String
+    val message: String,
+    val alert: AlertResponse
 )
 
 
