@@ -18,7 +18,7 @@ def available_currency():
 
     return currency
 
-print(available_currency())
+# print(available_currency())
 
 
 
@@ -41,7 +41,7 @@ def target_rate(base : str, target : str):
 
     return data 
 
-target_rate("USD", "JPY")
+# target_rate("USD", "JPY")
 
 
 
@@ -111,6 +111,7 @@ def one_month_market(base, target):
 
     return time_range_search(one_month_ago.strftime("%Y-%m-%d"), today.strftime("%Y-%m-%d"), base, target)
 
+print(one_month_market("USD", "JPY"))
 
 # func for 6 month WORK
 def six_month_market(base, target):
@@ -166,14 +167,16 @@ def currency_exchange(base, target, base_amount):
 
 def daily_change(base, target): 
     today = date.today()
-    one_day_ago = today - relativedelta(days= 1 )
+    one_day_ago = today - relativedelta(days=1)
+    two_days_ago = today - relativedelta(days=2)
     yesterday_data = get_specific_rate_by_date(one_day_ago,base, target)[0]["rate"]
-    current_data = target_rate(base, target)["rate"]
-    print(current_data)
-    print(yesterday_data)
+    day_before_yesterday_data = get_specific_rate_by_date(two_days_ago,base, target)[0]["rate"]
 
-    current_change = float(round(((float(current_data) - float(yesterday_data))/ float(yesterday_data)) * 100,2 ))
+
+    current_change = float(round(((float(yesterday_data) - float(day_before_yesterday_data))/ float(day_before_yesterday_data)) * 100,2 ))
     return f"{current_change}%"
+
+print(daily_change("BRL", "JPY"))
 
 
 def weekly_trend(base, target): 
@@ -227,7 +230,6 @@ def weekly_trend(base, target):
     }
 
 
-# print(weekly_trend("USD", "JPY"))
 
 def alert_check(alert_target, base, target, alert_configuratoin): 
     today = date.today()

@@ -6,6 +6,7 @@ from app.routers.profile import router as profile_router
 from app.routers.history import router as history_router 
 import asyncio 
 from contextlib import asynccontextmanager
+from fastapi.middleware.cors import CORSMiddleware
 
 
 @asynccontextmanager
@@ -29,9 +30,17 @@ app.include_router(history_router)
 app.include_router(alert_router)
 
 
+# app.add_middleware(
+#     CORSMiddleware, 
+#     allow_origins = ["*"],
+#     allow_credentials = True , 
+#     allow_methods = ["*"],
+#     allow_headers =["*"],
+# )
+
+
 
 @app.get("/")
 def home(): 
     return {"message": "Hello World"}
-
 

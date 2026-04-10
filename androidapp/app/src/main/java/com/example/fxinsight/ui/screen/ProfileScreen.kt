@@ -8,12 +8,13 @@ import androidx.compose.ui.Modifier
 
 
 @Composable
-fun ProfileScreen(modifier: Modifier = Modifier) {
+fun ProfileScreen(modifier: Modifier = Modifier,
+                  signOut: () -> Unit ) {
 
     Column()
     {
         Button(
-            onClick = {}
+            onClick = signOut
         )
         {
             Text("Sign Out")

@@ -1,4 +1,4 @@
-package com.example.fxinsight.model.uistate
+package com.example.fxinsight.ui.uistate
 
 data class HistoryUiState(
     val filter: Filter = Filter.ALL,

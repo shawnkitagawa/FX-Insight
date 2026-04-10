@@ -41,22 +41,17 @@ class DefaultFXInsightRepository(
         userName: String
     ): Result<Unit> {
         return try {
-            // 1. check username first
-            checkUsernameExist(userName).getOrThrow()
-
             // 2. create auth account
             supabase.auth.signUpWith(Email) {
                 this.email = email
                 this.password = password
             }
 
-            if (waitForSession())
-            {
-                addUserName(userName).getOrThrow()
-            }
+            Log.d("SignUP", "Execute succesfully ")
 
             Result.success(Unit)
         } catch (e: Exception) {
+            Log.d("SignUP", "Failed ")
             Result.failure(e)
         }
     }

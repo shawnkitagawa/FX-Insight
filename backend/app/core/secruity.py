@@ -22,20 +22,6 @@ def get_jwks():
     response = httpx.get(f"{SUPABASE_URL}/auth/v1/.well-known/jwks.json")
     return response.json()
 
-res = requests.post(
-    f"{SUPABASE_URL}/auth/v1/token?grant_type=password",
-    headers={
-        "apikey": API_KEY,
-        "Content-Type": "application/json"
-    },
-    json={
-        "email": "kitagash@oregonstate.edu",
-        "password": "12345678"
-    }
-)
-print(res.json()["access_token"])
-
-
 def get_current_user_id(
         credentials: HTTPAuthorizationCredentials = Depends(security),
         db: Session = Depends(get_db)

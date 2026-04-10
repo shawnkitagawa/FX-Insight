@@ -1,5 +1,6 @@
 package com.example.fxinsight.ui.viewmodel
 
+import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -8,11 +9,11 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fxinsight.application.FXInsightApplication
 import com.example.fxinsight.data.repository.FXInsightRepository
-import com.example.fxinsight.model.uistate.AuthInput
-import com.example.fxinsight.model.uistate.AuthPage
-import com.example.fxinsight.model.uistate.AuthState
-import com.example.fxinsight.model.uistate.AuthUiState
-import com.example.fxinsight.model.uistate.SessionState
+import com.example.fxinsight.ui.uistate.AuthInput
+import com.example.fxinsight.ui.uistate.AuthPage
+import com.example.fxinsight.ui.uistate.AuthState
+import com.example.fxinsight.ui.uistate.AuthUiState
+import com.example.fxinsight.ui.uistate.SessionState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,9 +26,14 @@ class AuthViewModel(
     val uiState: StateFlow<AuthUiState> = _uiState
 
     fun clickWelcomeButton() {
+        authPageReset()
+        authStateReset()
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(sessionState = SessionState.Checking)
-
+            Log.d("ClickWelcomeButton", "Check authInput ${_uiState.value.authInput}")
+            Log.d("ClickWelcomeButton", "Check authInput ${_uiState.value.authPage}")
+            Log.d("ClickWelcomeButton", "Check authInput ${_uiState.value.authState}")
+            Log.d("ClickWelcomeButton", "Check authInput ${_uiState.value.sessionState}")
             _uiState.value = _uiState.value.copy(
                 sessionState = if (repository.isSession()) {
                     SessionState.Authenticated
@@ -35,6 +41,7 @@ class AuthViewModel(
                     SessionState.unAutheticated
                 }
             )
+            Log.d("ClickWelcomeButtonzSession", "Check SESSION RESULT ${_uiState.value.sessionState}")
         }
     }
 
@@ -83,6 +90,11 @@ class AuthViewModel(
             repository.signIn(email, password).fold(
                 onSuccess = {
                     _uiState.value = _uiState.value.copy(authState = AuthState.Success)
+
+                    Log.d("Signin Success", "Check authInput ${_uiState.value.authInput}")
+                    Log.d("Signin Success ", "Check authInput ${_uiState.value.authPage}")
+                    Log.d("Signin Success", "Check authInput ${_uiState.value.authState}")
+                    Log.d("Signin Success", "Check authInput ${_uiState.value.sessionState}")
                 },
                 onFailure = { error ->
                     _uiState.value = _uiState.value.copy(
@@ -90,6 +102,11 @@ class AuthViewModel(
                             error.message ?: "Something went wrong during sign in"
                         )
                     )
+
+                    Log.d("Signin Failed", "Check authInput ${_uiState.value.authInput}")
+                    Log.d("Signin Failed", "Check authInput ${_uiState.value.authPage}")
+                    Log.d("Signin Failed", "Check authInput ${_uiState.value.authState}")
+                    Log.d("Signin Failed", "Check authInput ${_uiState.value.sessionState}")
                 }
             )
         }
@@ -110,6 +127,11 @@ class AuthViewModel(
             repository.signUp(email, password, userName).fold(
                 onSuccess = {
                     _uiState.value = _uiState.value.copy(authState = AuthState.Success)
+
+                    Log.d("SignUP Success", "Check authInput ${_uiState.value.authInput}")
+                    Log.d("SignUP Success", "Check authPage ${_uiState.value.authPage}")
+                    Log.d("SignUP SUccess", "Check authState ${_uiState.value.authState}")
+                    Log.d("SignUP Success", "Check authSession ${_uiState.value.sessionState}")
                 },
                 onFailure = { error ->
                     _uiState.value = _uiState.value.copy(
@@ -117,10 +139,42 @@ class AuthViewModel(
                             error.message ?: "Something went wrong during sign up"
                         )
                     )
+
+                    Log.d("SignUP Failed", "Check authInput ${_uiState.value.authInput}")
+                    Log.d("SignUP Failed", "Check authInput ${_uiState.value.authPage}")
+                    Log.d("SignUP Failed", "Check authInput ${_uiState.value.authState}")
+                    Log.d("SignUP Failed", "Check authInput ${_uiState.value.sessionState}")
                 }
             )
         }
     }
+    fun signOut()
+    {
+        viewModelScope.launch{
+            Log.d("signOut", "Expect sessionstate to be authenticated: ${_uiState.value.sessionState}")
+            _uiState.value = _uiState.value.copy(
+                sessionState = SessionState.Checking
+            )
+
+            val results = repository.signOut()
+
+            results.fold(
+                onSuccess = {
+                    _uiState.value = _uiState.value.copy(
+                        sessionState = SessionState.unAutheticated
+                    )
+                },
+                onFailure = {error ->
+                    Log.d("signOut", "Failed to sign out ")
+                    _uiState.value = _uiState.value.copy(
+                        sessionState = SessionState.Authenticated,
+                        authState = AuthState.Error(message = error.message ?: "Failed to sign out ")
+                    )
+                },
+            )
+        }
+    }
+
 
     private fun verifyInput(email: String, password: String, userName: String?): Boolean {
         var valid = true
@@ -151,6 +205,7 @@ class AuthViewModel(
             )
             valid = false
         }
+        Log.d("verifyInput", "${_uiState.value.authInput}")
 
         return valid
     }

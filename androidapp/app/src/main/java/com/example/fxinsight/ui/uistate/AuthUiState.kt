@@ -1,4 +1,4 @@
-package com.example.fxinsight.model.uistate
+package com.example.fxinsight.ui.uistate
 
 data class AuthUiState(
     val authState: AuthState = AuthState.Idle,
@@ -11,9 +11,9 @@ data class AuthInput (
     val email: String = "",
     val password: String = "",
     val userName: String? = "",
-    val emailError: String? = "",
-    val passwordError: String? = "",
-    val userNameError: String? = ""
+    val emailError: String? = null,
+    val passwordError: String? = null,
+    val userNameError: String? = null
 )
 sealed interface AuthState{
     object Idle: AuthState

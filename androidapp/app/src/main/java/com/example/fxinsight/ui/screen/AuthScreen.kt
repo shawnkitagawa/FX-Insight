@@ -1,5 +1,6 @@
 package com.example.fxinsight.ui.screen
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -16,10 +17,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +25,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.fxinsight.R
-import com.example.fxinsight.model.uistate.AuthPage
+import com.example.fxinsight.ui.uistate.AuthPage
 import com.example.fxinsight.ui.theme.FXInsightTheme
 
 
@@ -47,7 +45,10 @@ fun AuthScreen(
     signIn: (String, String) -> Unit,
     signUp: (String, String, String) -> Unit,
     currentAuthPage: AuthPage,
-    errorMessage: String?
+    errorMessage: String?,
+    usernameError: String?,
+    emailError: String?,
+    passwordError: String?,
 ) {
     Sign(
         email = email,
@@ -60,7 +61,10 @@ fun AuthScreen(
         signIn = signIn,
         signUp = signUp,
         currentAuthPage = currentAuthPage,
-        errorMessage = errorMessage
+        errorMessage = errorMessage,
+        usernameError = usernameError,
+        emailError = emailError,
+        passwordError = passwordError
     )
 }
 
@@ -77,7 +81,10 @@ fun Sign(
     signIn: (String, String) -> Unit,
     signUp: (String, String, String) -> Unit,
     currentAuthPage: AuthPage,
-    errorMessage: String?
+    errorMessage: String?,
+    usernameError: String?,
+    emailError: String?,
+    passwordError: String?
 ) {
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
@@ -109,10 +116,16 @@ fun Sign(
                     value = username,
                     onValueChange = updateUserName,
                     placeholder = { Text("Enter your username") },
+                    isError = usernameError != null,
+                    supportingText ={
+                        usernameError?.let{
+                            Text(text = it)
+                        }
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
                         .clip(CircleShape)
-                        .height(55.dp)
+//                        .height(55.dp)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -122,10 +135,16 @@ fun Sign(
                 value = email,
                 onValueChange = updateEmail,
                 placeholder = { Text("you@example.com") },
+                isError = emailError != null,
+                supportingText ={
+                    emailError?.let{
+                        Text(text = it)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(CircleShape)
-                    .height(55.dp)
+//                    .height(55.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))
@@ -135,10 +154,16 @@ fun Sign(
                 value = password,
                 onValueChange = updatePassword,
                 placeholder = { Text("At least 8 characters") },
+                isError = passwordError != null,
+                supportingText ={
+                    passwordError?.let{
+                        Text(text = it)
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(CircleShape)
-                    .height(55.dp)
+//                    .height(55.dp)
             )
 
             Spacer(modifier = Modifier.height(16.dp))

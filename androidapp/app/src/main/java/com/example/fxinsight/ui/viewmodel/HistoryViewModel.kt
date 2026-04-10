@@ -5,9 +5,10 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fxinsight.application.FXInsightApplication
+import com.example.fxinsight.data.repositiory.HistoryRepository
 import com.example.fxinsight.data.repository.FXInsightRepository
 
-class HistoryViewModel(private val repository: FXInsightRepository): ViewModel() {
+class HistoryViewModel(private val repository: HistoryRepository): ViewModel() {
 
 
 
@@ -26,7 +27,7 @@ class HistoryViewModel(private val repository: FXInsightRepository): ViewModel()
             initializer {
                 val application =
                     this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FXInsightApplication
-                val repository = application.container.fxInsightRepository
+                val repository = application.container.historyRepository
                 HistoryViewModel(repository)
             }
         }

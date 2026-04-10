@@ -17,17 +17,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.fxinsight.model.uistate.AuthPage
-import com.example.fxinsight.model.uistate.AuthState
-import com.example.fxinsight.model.uistate.SessionState
+import com.example.fxinsight.ui.uistate.AuthState
+import com.example.fxinsight.ui.uistate.SessionState
 import com.example.fxinsight.ui.screen.AuthScreen
 import com.example.fxinsight.ui.screen.DashboardScreen
 import com.example.fxinsight.ui.screen.HistoryScreen
@@ -35,6 +31,7 @@ import com.example.fxinsight.ui.screen.MarketScreen
 import com.example.fxinsight.ui.screen.ProfileScreen
 import com.example.fxinsight.ui.screen.WelcomeScreen
 import com.example.fxinsight.ui.viewmodel.AuthViewModel
+import kotlin.math.sign
 
 @Composable
 fun FxApp(modifier: Modifier = Modifier) {
@@ -51,17 +48,14 @@ fun FxApp(modifier: Modifier = Modifier) {
             WelcomeScreen(
                 clickWelcomeButton = viewModel::clickWelcomeButton
             )
-
             LaunchedEffect(uiState.sessionState) {
                 Log.d("welcome Screen", "${uiState.sessionState}")
                 Log.d("state check", "${uiState}")
                 when (uiState.sessionState) {
                     is SessionState.Authenticated -> {
+                        Log.d("welcome Screen authenticated Confirmed", "${uiState.sessionState}")
                         navController.navigate("main")
-                        viewModel.sessionStateReset()
                     }
-
-
                     is SessionState.unAutheticated -> {
                         navController.navigate("auth")
                         viewModel.sessionStateReset()
@@ -74,6 +68,7 @@ fun FxApp(modifier: Modifier = Modifier) {
 
         composable(route = "auth") {
             val errorMessage = (uiState.authState as? AuthState.Error)?.message
+            Log.d("auth route", "${uiState.sessionState}")
 
             LaunchedEffect(uiState.authState) {
                 if (uiState.authState == AuthState.Success) {
@@ -81,10 +76,14 @@ fun FxApp(modifier: Modifier = Modifier) {
                         popUpTo("auth") { inclusive = true }
                     }
                     viewModel.authStateReset()
+                    viewModel.inputReset()
                 }
             }
-
-            Log.d("navigation", "The authPage is ${uiState.authPage}")
+            LaunchedEffect(uiState.authPage) {
+                viewModel.inputReset()
+                viewModel.authStateReset()
+                Log.d("auth", "triggered")
+            }
 
             AuthScreen(
                 email = uiState.authInput.email,
@@ -103,19 +102,37 @@ fun FxApp(modifier: Modifier = Modifier) {
                     viewModel.signUp(email, password, userName)
                 },
                 currentAuthPage = uiState.authPage,
-                errorMessage = errorMessage
+                errorMessage = errorMessage,
+                usernameError = uiState.authInput.userNameError,
+                emailError = uiState.authInput.emailError,
+                passwordError = uiState.authInput.passwordError
+
             )
         }
 
         composable(route = "main") {
-            MainScaffold()
+            MainScaffold(viewModel::signOut,
+                currentSession = uiState.sessionState,
+                navBackWelcome = {navController.navigate("welcome")
+                {
+                    popUpTo("main") { inclusive = true }
+                }
+                    viewModel.sessionStateReset()
+                }
+            )
         }
     }
 }
 
 @Composable
-fun MainScaffold()
+fun MainScaffold(
+    signOut: () -> Unit,
+    currentSession: SessionState,
+    navBackWelcome: () -> Unit ,
+
+)
 {
+
     val navMainController = rememberNavController()
     val navBackStackEntry by navMainController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -153,7 +170,15 @@ fun MainScaffold()
             }
             composable("profile")
             {
-                ProfileScreen()
+                LaunchedEffect(currentSession) {
+                    Log.d("MainScaffold", "${currentSession}")
+                    if (currentSession is SessionState.unAutheticated)
+                    {
+                        navBackWelcome()
+
+                    }
+                }
+                ProfileScreen(signOut = signOut)
             }
         }
     }

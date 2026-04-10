@@ -47,6 +47,7 @@ def currency_types()-> list:
 
     return data 
 
+
 @router.get("/{base}")
 def currency_information(base: str)-> dict: 
     base = base.upper()
@@ -100,16 +101,6 @@ def daily_change_data(base: str, target: str) -> dict:
     
     return {"change": data}
 
-# @router.get("/{base}/{target}/{alert}/{alertconfiguration}")
-# def alert_notification(base: str, target: str, alert:float, alertconfiguration: AlertStatus) -> dict:
-#     now = datetime.now(timezone.utc) 
-
-#     data = alert_check(alert, base, target, alertconfiguration.value)
-
-#     if not data: 
-#         raise HTTPException(status_code=404, detail= "Failed to check alert" )
-    
-#     return data 
 
 @router.get("/{base}/{target}/market")
 def historical_graph(base: str, target: str,time_group: TimeGroup): 

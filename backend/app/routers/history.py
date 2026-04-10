@@ -85,5 +85,5 @@ def delete_all_history(user_id: UUID = Depends(get_current_user_id), db: Session
 
     db.commit()
 
-
-    return {"message": {"All history data succesfully deleted"}}
+    # I just modified it make sure to deploy again update
+    return {"message": "All history data succesfully deleted"}
