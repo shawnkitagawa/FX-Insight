@@ -27,8 +27,8 @@ CREATE TABLE history (
     user_id UUID NOT NULL,
     base_currency VARCHAR(10) NOT NULL,
     target_currency VARCHAR(10) NOT NULL,
-    base_amount DECIMAL(12, 2) NOT NULL,
-    converted_amount DECIMAL(12, 2) NOT NULL,
+    -- base_amount DECIMAL(12, 2) NOT NULL,
+    -- converted_amount DECIMAL(12, 2) NOT NULL,
     rate DECIMAL(12, 6) NOT NULL,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW(),
     CONSTRAINT history_user_id_foreign FOREIGN KEY (user_id) REFERENCES profile(user_id) ON DELETE CASCADE

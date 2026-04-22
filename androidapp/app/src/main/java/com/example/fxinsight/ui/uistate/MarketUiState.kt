@@ -1,29 +1,24 @@
 package com.example.fxinsight.ui.uistate
 
-import java.sql.Timestamp
+import com.example.fxinsight.data.network.dto.currency.TimeGroup
 
 data class MarketUiState (
     val MarketInsight: String? = null,
-    val selectRange: TimeRange = TimeRange.DAY,
-    val graphs: Map<TimeRange, Graph> = emptyMap(),
-    val marketState: MarketState = MarketState.Loading
-
+    val selectRange: TimeGroup = TimeGroup.DAY,
+    val graphs: Map<TimeGroup, Graph> = emptyMap(),
+    val marketState: MarketState = MarketState.Loading,
+    val InsightState: MarketState = MarketState.Loading,
+    val Insight: String? = null
 )
 
 data class Graph(
-    val x: List<Timestamp>,
-    val y: List<Float>,
+    val x: List<Long>,
+    val y: List<Double>,
 )
 
-enum class TimeRange{
-    DAY,
-    WEEK,
-    MONTH,
-    HALF_YEAR,
-    YEAR,
-}
-
 sealed interface MarketState{
+
+    data object Idle: MarketState
 
     data object Loading: MarketState
 

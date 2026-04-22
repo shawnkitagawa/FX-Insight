@@ -15,7 +15,7 @@ import retrofit2.http.Path
 
 interface AlertAPIService {
 
-    @POST("alert")
+    @POST("alert/")
     suspend fun createAlert(
         @Body create: AlertCreate
     ): AlertResponse

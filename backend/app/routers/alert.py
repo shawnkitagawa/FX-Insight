@@ -116,21 +116,6 @@ def fetch_alert(user_id: UUID = Depends(get_current_user_id), db: Session = Depe
 
     return alerts
 
-
-
-
-@router.delete("/{alert_id}")
-def delete_alert(alert_id: UUID, user_id: UUID = Depends(get_current_user_id), db: Session = Depends(get_db)):
-    alert = db.query(Alert).filter(Alert.id == alert_id, Alert.user_id == user_id).first()
-
-    if not alert: 
-        raise HTTPException(status_code=404, detail = "Alert not found")
-    
-    db.delete(alert)
-    db.commit()
-
-    return {"message": "delete succesful", "alert": f"{alert}"}
-
 @router.delete("/me")
 def delete_all_alert(user_id: UUID = Depends(get_current_user_id), db: Session = Depends(get_db)):
 
@@ -144,6 +129,20 @@ def delete_all_alert(user_id: UUID = Depends(get_current_user_id), db: Session =
     db.commit()
 
     return {"message": "Succesfully delete all alerts"}
+
+
+@router.delete("/{alert_id}")
+def delete_alert(alert_id: UUID, user_id: UUID = Depends(get_current_user_id), db: Session = Depends(get_db)):
+    alert = db.query(Alert).filter(Alert.id == alert_id, Alert.user_id == user_id).first()
+
+    if not alert: 
+        raise HTTPException(status_code=404, detail = "Alert not found")
+    
+    db.delete(alert)
+    db.commit()
+
+    return {"message": "delete succesful", "alert": alert}
+
 
 
 

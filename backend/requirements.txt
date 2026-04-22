@@ -18,3 +18,5 @@ python-dateutil
 httpx
 
 supabase
+
+openai

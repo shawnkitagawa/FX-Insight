@@ -24,10 +24,10 @@ data class AlertResponse (
     val lastCheckedAt: String,
 
     @SerialName("base_currency")
-    val baseCurrency: Double,
+    val baseCurrency: String,
 
     @SerialName("target_currency")
-    val TargetCurrency: Double,
+    val targetCurrency: String,
 
     @SerialName("is_active")
     val isActive: Boolean,

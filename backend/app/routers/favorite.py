@@ -43,10 +43,10 @@ def create_favorite(create: FavoriteCreate, db: Session = Depends(get_db), user_
             detail = "Favorite already exists or invalid user" 
         )
     
+    
 @router.get("/me", response_model = list[FavoriteResponse])
 def fetch_favorite(user_id: UUID = Depends(get_current_user_id), db: Session = Depends(get_db)): 
     favorites = db.query(Favorite).filter(Favorite.user_id == user_id).all()
-
 
     return favorites
 

@@ -11,7 +11,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface CurrencyAPIService {
-    @GET("currency")
+    @GET("currency/")
     suspend fun currencyType(): AvailableCurrencyResponse
 
     @GET("currency/{base}")
@@ -19,7 +19,7 @@ interface CurrencyAPIService {
         @Path("base") baseCurrency: String
     ): CurrencyInformationResponse
 
-    @GET("currency/{base}/{target}/week/")
+    @GET("currency/{base}/{target}/week")
     suspend fun weeklyStatistics(
         @Path ("base") baseCurrency: String,
         @Path ("target") targetCurrency: String
@@ -37,7 +37,7 @@ interface CurrencyAPIService {
         @Path("base") baseCurrency: String,
         @Path("target") targetCurrency: String,
 
-        @Query("time_group") timeGroup: TimeGroup
+        @Query("time_group") timeGroup: String
 
     ): List<HistoricalGraphResponse>
 

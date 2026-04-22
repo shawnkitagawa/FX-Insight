@@ -23,7 +23,7 @@ interface CurrencyRepository{
 
     suspend fun getHistoricalGraph(baseCurrency: String,
                                 targetCurrency: String,
-                                timeGroup: TimeGroup
+                                   timeGroup: String
     ): Result<List<HistoricalGraphResponse>>
 }
 
@@ -87,7 +87,7 @@ class DefaultCurrencyRepository(
     override suspend fun getHistoricalGraph(
         baseCurrency: String,
         targetCurrency: String,
-        timeGroup: TimeGroup
+        timeGroup: String
     ): Result<List<HistoricalGraphResponse>> {
         try{
             val datas = currencyAPIService.historicalGraph(baseCurrency = baseCurrency,

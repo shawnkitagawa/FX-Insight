@@ -2,10 +2,16 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker 
 from sqlalchemy.ext.declarative import declarative_base
 from urllib.parse import quote_plus
+import os 
+from dotenv import load_dotenv
+from pathlib import Path
+from app.core.config import DB_PASSWORD
 
-password = quote_plus("Shawn550@")
-DATABASE_URL = f"postgresql+psycopg2://postgres:{password}@34.84.248.161:5432/postgres?sslmode=require"
+from urllib.parse import quote_plus
 
+password = quote_plus(DB_PASSWORD)
+
+DATABASE_URL = f"postgresql+psycopg2://currency-user:{password}@34.84.248.161:5432/postgres?sslmode=require"
 
 # Connection to PostgreSQL Creagte a connection tool like a cable
 engine = create_engine(DATABASE_URL) 

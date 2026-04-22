@@ -1,9 +1,12 @@
 package com.example.fxinsight.data.repositiory
 
+import android.util.Log
 import com.example.fxinsight.data.network.APIService.ProfileAPIService
 import com.example.fxinsight.data.network.dto.profile.request.ProfileCreate
 import com.example.fxinsight.data.network.dto.profile.response.DeleteProfileResponse
 import com.example.fxinsight.data.network.dto.profile.response.ProfileResponse
+import kotlinx.io.IOException
+import retrofit2.HttpException
 
 
 interface ProfileRepository{
@@ -23,16 +26,17 @@ class DefaultProfileRepository(
 
 
     override suspend fun createProfile(create: ProfileCreate): Result<ProfileResponse> {
-        try
-        {
-            val profile = profileAPIService.createProfile(create)
-
-            return Result.success(profile)
-        }
-        catch(e: Exception)
-        {
-
-            return Result.failure(e)
+        return try {
+            val response = profileAPIService.createProfile(create)
+            Result.success(response)
+        } catch (e: HttpException) {
+            val errorBody = e.response()?.errorBody()?.string()
+            Result.failure(Exception(errorBody ?: "HTTP error"))
+        } catch (e: IOException) {
+            Log.e("ProfileError", "IO Exception", e)
+            Result.failure(Exception("Network error"))
+        } catch (e: Exception) {
+            Result.failure(e)
         }
     }
 

@@ -11,8 +11,5 @@ data class HistoryCreate(
     val baseCurrency: String,
 
     @SerialName("target_currency")
-    val targetCurrency: String,
-
-    @SerialName("base_amount")
-    val baseAmount: String
+    val targetCurrency: String
 )

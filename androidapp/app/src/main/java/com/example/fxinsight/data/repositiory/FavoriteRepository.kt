@@ -5,6 +5,7 @@ import com.example.fxinsight.data.network.dto.favorite.request.FavoriteCreate
 import com.example.fxinsight.data.network.dto.favorite.response.DeleteAllFavoriteResponse
 import com.example.fxinsight.data.network.dto.favorite.response.DeleteFavoriteResponse
 import com.example.fxinsight.data.network.dto.favorite.response.FavoriteResponse
+import retrofit2.HttpException
 
 
 interface FavoriteRepository{
@@ -33,6 +34,19 @@ class DefaultFavoriteRepository(private val favoriteAPIService: FavoriteAPIServi
 
             return Result.success(favorite)
         }
+        catch (e: HttpException) {
+
+            val errorBody = e.response()?.errorBody()?.string()
+
+            val message = try {
+                org.json.JSONObject(errorBody ?: "").getString("detail")
+            } catch (ex: Exception) {
+                "Favorite creation failed"
+            }
+
+            return Result.failure(Exception(message))
+
+        }
         catch(e: Exception)
         {
             return Result.failure(e)
@@ -45,6 +59,19 @@ class DefaultFavoriteRepository(private val favoriteAPIService: FavoriteAPIServi
 
 
             return Result.success(favorites)
+
+        }
+        catch (e: HttpException) {
+
+            val errorBody = e.response()?.errorBody()?.string()
+
+            val message = try {
+                org.json.JSONObject(errorBody ?: "").getString("detail")
+            } catch (ex: Exception) {
+                "Favorite creation failed"
+            }
+
+            return Result.failure(Exception(message))
 
         }
         catch(e: Exception){

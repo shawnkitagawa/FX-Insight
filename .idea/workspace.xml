@@ -10,18 +10,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="75c865cb-3fd3-4193-a33a-72a083d0faf6" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/core/secruity.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/core/secruity.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/database/base.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/database/base.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/database/db.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/database/db.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/alert.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/alert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/favorite.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/favorite.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/history.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/history.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/app/routers/profile.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/app/routers/profile.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/backend/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/schemas.py" beforeDir="false" afterPath="$PROJECT_DIR$/backend/schemas.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,7 +20,7 @@
   <component name="ClangdSettings">
     <option name="formatViaClangd" value="false" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[DeviceId(pluginId=LocalEmulator, isTemplate=false, identifier=path=C:\Users\seank\.android\avd\Medium_Phone.avd)]" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="device_and_snapshot_combo_box_target[]" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

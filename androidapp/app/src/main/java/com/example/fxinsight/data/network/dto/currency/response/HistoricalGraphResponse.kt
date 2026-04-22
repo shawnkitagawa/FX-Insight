@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class HistoricalGraphResponse(
     val date: String,
-    val baseCurrency: String,
-    val quoteCurrency: String,
+    val base: String,
+    val quote: String,
     val rate: Double
 )

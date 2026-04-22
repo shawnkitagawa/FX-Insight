@@ -38,7 +38,6 @@ class FavoriteResponse(BaseModel):
 class HistoryCreate(BaseModel): 
     base_currency: str
     target_currency:str 
-    base_amount: Decimal
     
 
 class HistoryResponse(BaseModel): 
@@ -46,8 +45,6 @@ class HistoryResponse(BaseModel):
     user_id: UUID
     base_currency: str
     target_currency:str 
-    base_amount: Decimal
-    converted_amount: Decimal 
     rate: Decimal
     created_at:datetime
 
@@ -79,6 +76,14 @@ class AlertResponse(BaseModel):
     created_at: datetime
     is_triggered: bool 
     triggered_at: datetime | None 
+
+    class Config: 
+        from_attributes = True 
+
+class InsightResponse(BaseModel): 
+    pair: str
+    insight: str
+
 
     class Config: 
         from_attributes = True 

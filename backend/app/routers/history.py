@@ -7,8 +7,9 @@ from app.database.db import History
 from sqlalchemy.exc import IntegrityError
 from uuid import UUID
 from app.core.secruity import get_current_user_id
-from app.services.currency_service import available_currency, currency_exchange
+from app.services.currency_service import available_currency, currency_exchange, target_rate
 from decimal import Decimal
+from sqlalchemy import text
 
 
 
@@ -16,6 +17,38 @@ router = APIRouter(prefix = "/history", tags = ["history"])
 
 AVAILABLE_CURRENCY = available_currency()
 
+
+# @router.post("/", response_model = HistoryResponse)
+# def create_history(create: HistoryCreate, db:Session = Depends(get_db), user_id: UUID = Depends(get_current_user_id)):
+
+#     create.target_currency = create.target_currency.upper()
+#     create.base_currency = create.base_currency.upper()
+
+#     if create.target_currency not in AVAILABLE_CURRENCY or create.base_currency not in AVAILABLE_CURRENCY: 
+#         raise HTTPException(status_code=400, detail = "Currency does not exist")
+
+#     data = currency_exchange(create.base_currency, create.target_currency,create.base_amount)
+#     print(data)
+
+#     if data is None: 
+#         raise HTTPException(status_code=404, detail = "Failed to fetch currency exchange")
+
+#     new_history = History(
+#         user_id = user_id, 
+#         base_currency = data["base"], 
+#         target_currency = data["quote"], 
+#         base_amount = create.base_amount, 
+#         converted_amount = data["target_total"], 
+#         rate = data["rate"], 
+#     )
+#     try: 
+#         db.add(new_history)
+#         db.commit()
+#         db.refresh(new_history)
+#         return new_history
+#     except IntegrityError: 
+#         db.rollback()
+#         raise HTTPException(status_code=400, detail="Invalid history data or constraint violation")
 
 @router.post("/", response_model = HistoryResponse)
 def create_history(create: HistoryCreate, db:Session = Depends(get_db), user_id: UUID = Depends(get_current_user_id)):
@@ -26,8 +59,9 @@ def create_history(create: HistoryCreate, db:Session = Depends(get_db), user_id:
     if create.target_currency not in AVAILABLE_CURRENCY or create.base_currency not in AVAILABLE_CURRENCY: 
         raise HTTPException(status_code=400, detail = "Currency does not exist")
 
-    data = currency_exchange(create.base_currency, create.target_currency,create.base_amount)
-    print(data)
+    # data = currency_exchange(create.base_currency, create.target_currency,create.base_amount)
+    # print(data)
+    data = target_rate(base = create.base_currency, target = create.target_currency)
 
     if data is None: 
         raise HTTPException(status_code=404, detail = "Failed to fetch currency exchange")
@@ -36,19 +70,36 @@ def create_history(create: HistoryCreate, db:Session = Depends(get_db), user_id:
         user_id = user_id, 
         base_currency = data["base"], 
         target_currency = data["quote"], 
-        base_amount = create.base_amount, 
-        converted_amount = data["target_total"], 
-        rate = data["rate"], 
+        rate = data["rate"]
     )
     try: 
         db.add(new_history)
         db.commit()
         db.refresh(new_history)
+
+
+        db.execute(
+            text("""
+                DELETE FROM history 
+                WHERE id IN(
+                 SELECT id 
+                 FROM history
+                 WHERE user_id = :user_id
+                 ORDER by created_at DESC, id DESC
+                 OFFSET 1000)
+                 
+                 """),
+                  {"user_id":user_id}
+        )
+        db.commit()
+    
         return new_history
     except IntegrityError: 
         db.rollback()
         raise HTTPException(status_code=400, detail="Invalid history data or constraint violation")
-    
+
+
+
     
 
 @router.get("/me", response_model = list[HistoryResponse])

@@ -10,7 +10,7 @@ import retrofit2.http.POST
 
 interface ProfileAPIService {
 
-    @POST("profile")
+    @POST("profile/")
     suspend fun createProfile(
         @Body create: ProfileCreate
     ): ProfileResponse

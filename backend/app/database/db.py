@@ -34,9 +34,9 @@ class History(Base):
                                                    "CASCADE"), nullable= False)
     base_currency = Column(String(10), nullable= False)
     target_currency = Column(String(10),nullable= False)
-    base_amount = Column(Numeric(12,2), nullable= False)
-    converted_amount = Column(Numeric(12,2), nullable= False)
-    rate = Column(Numeric(12,2), nullable= False)
+    # base_amount = Column(Numeric(12,2), nullable= False)
+    # converted_amount = Column(Numeric(12,2), nullable= False)
+    rate = Column(Numeric(18,6), nullable= False)
     created_at = Column(DateTime(timezone= True),nullable= False, server_default=func.now())
 
 class Alert(Base): 

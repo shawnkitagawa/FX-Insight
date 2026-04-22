@@ -1,25 +1,29 @@
 package com.example.fxinsight.application
 
 import android.content.Context
+import com.example.fxinsight.data.network.APIService.AiInsightService
 import com.example.fxinsight.data.network.APIService.AlertAPIService
 import com.example.fxinsight.data.network.APIService.CurrencyAPIService
 import com.example.fxinsight.data.network.APIService.FavoriteAPIService
 import com.example.fxinsight.data.network.APIService.HistoryAPIService
 import com.example.fxinsight.data.network.APIService.ProfileAPIService
 import com.example.fxinsight.data.network.interceptor.AuthInterceptor
+import com.example.fxinsight.data.repositiory.AcountRepository
 import com.example.fxinsight.data.repositiory.AlertRepository
 import com.example.fxinsight.data.repositiory.CurrencyRepository
+import com.example.fxinsight.data.repositiory.DefaultAccountRepository
 import com.example.fxinsight.data.repositiory.DefaultAlertRepository
 import com.example.fxinsight.data.repositiory.DefaultCurrencyRepository
 import com.example.fxinsight.data.repositiory.DefaultFavoriteRepository
 import com.example.fxinsight.data.repositiory.DefaultHistoryRepository
+import com.example.fxinsight.data.repositiory.DefaultInsightRepository
 import com.example.fxinsight.data.repositiory.DefaultProfileRepository
 import com.example.fxinsight.data.repositiory.FavoriteRepository
 import com.example.fxinsight.data.repositiory.HistoryRepository
+import com.example.fxinsight.data.repositiory.InsightRepository
 import com.example.fxinsight.data.repositiory.ProfileRepository
-import com.example.fxinsight.data.repository.DefaultFXInsightRepository
-import com.example.fxinsight.data.repository.FXInsightRepository
-import com.example.fxinsight.ui.uistate.History
+import com.example.fxinsight.data.repository.AuthRepository
+import com.example.fxinsight.data.repository.DefaultAuthRepository
 import kotlinx.serialization.json.Json
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import io.github.jan.supabase.auth.Auth
@@ -31,13 +35,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 interface AppContainer {
-    val fxInsightRepository: FXInsightRepository
+    val fxInsightRepository: AuthRepository
     val alertRepository: AlertRepository
     val currencyRepository: CurrencyRepository
     val historyRepository: HistoryRepository
     val profileRepository: ProfileRepository
-
     val favoriteRepository: FavoriteRepository
+    val accountRepository: AcountRepository
+
+    val insightRepository: InsightRepository
 }
 
 
@@ -69,7 +75,7 @@ class DefaultAppContainer(private val context: Context): AppContainer
         .build()
 
 
-    private val BASE_URL = "https://currency-api-7wf5ft5rtq-an.a.run.app"
+    private val BASE_URL = " https://fxinsight-api-645129544233.asia-northeast1.run.app/"
 
     private val json = Json {
         ignoreUnknownKeys = true
@@ -98,10 +104,14 @@ class DefaultAppContainer(private val context: Context): AppContainer
         retrofit.create(AlertAPIService::class.java)
     }
 
+    private val retrofitServiceInsight: AiInsightService by lazy{
+        retrofit.create(AiInsightService::class.java)
+    }
 
 
-    override val fxInsightRepository: FXInsightRepository by lazy{
-        DefaultFXInsightRepository(supabase = supabase)
+
+    override val fxInsightRepository: AuthRepository by lazy{
+        DefaultAuthRepository(supabase = supabase)
     }
 
     override val alertRepository: AlertRepository by lazy{
@@ -121,6 +131,17 @@ class DefaultAppContainer(private val context: Context): AppContainer
     }
     override val favoriteRepository: FavoriteRepository by lazy {
         DefaultFavoriteRepository(favoriteAPIService = retrofitServiceFavorite)
+    }
+
+    override val accountRepository: AcountRepository by lazy{
+        DefaultAccountRepository(
+            profileRepository = profileRepository,
+            authRepository = fxInsightRepository
+        )
+    }
+
+    override val insightRepository: InsightRepository by lazy{
+        DefaultInsightRepository(aiInsightService = retrofitServiceInsight)
     }
 
 }

@@ -1,38 +1,31 @@
 package com.example.fxinsight.ui.uistate
 
+import com.example.fxinsight.data.network.dto.history.response.DeleteAllHistoryResponse
+import com.example.fxinsight.data.network.dto.history.response.DeleteHistoryResponse
+import com.example.fxinsight.data.network.dto.history.response.HistoryResponse
+
 data class HistoryUiState(
-    val filter: Filter = Filter.ALL,
-    val history: List<History> = emptyList(),
-    val historyState: HistoryState = HistoryState.Loading
+    val filter: HistoryFilter = HistoryFilter.ALL,
+    val history: List<HistoryResponse> = emptyList(),
+    val fetchHistoryState: HistoryState<List<HistoryResponse>> = HistoryState.Idle,
+    val deleteHistoryState: HistoryState<DeleteHistoryResponse> = HistoryState.Idle,
+    val deleteAllHistoryState: HistoryState<DeleteAllHistoryResponse> = HistoryState.Idle,
 
-)
-
-data class History(
-    val currencyIcon: Int,
-    val currencyPair: CurrencyPair,
-    val currencyAmountPair: CurrencyAmountPair,
     )
 
-data class CurrencyPair(
-    val fromCurrency: String,
-    val toCurrency: String,
-)
-data class CurrencyAmountPair(
-    val fromAmount: Float,
-    val toCurrency: Float,
-)
-
-enum class Filter{
+enum class HistoryFilter{
     ALL,
     TODAY,
     WEEK,
 }
 
-sealed interface HistoryState{
+sealed interface HistoryState<out T>{
 
-    object Loading: HistoryState
+    object Idle: HistoryState<Nothing>
 
-    object Success: HistoryState
+    object Loading: HistoryState<Nothing>
 
-    object Error: HistoryState
+    data class Success<T>(val data: T): HistoryState<T>
+
+    data class Error(val message: String?): HistoryState<Nothing>
 }

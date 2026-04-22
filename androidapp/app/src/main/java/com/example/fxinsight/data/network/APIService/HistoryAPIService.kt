@@ -13,7 +13,7 @@ import retrofit2.http.Path
 
 interface HistoryAPIService {
 
-    @POST("history")
+    @POST("history/")
     suspend fun createHistory(
         @Body create: HistoryCreate
     ): HistoryResponse

@@ -4,6 +4,7 @@ from app.routers.alert import router as alert_router , refresh_active_alerts
 from app.routers.favorite import router as favorite_router 
 from app.routers.profile import router as profile_router
 from app.routers.history import router as history_router 
+from app.routers.insight import router as insight_router
 import asyncio 
 from contextlib import asynccontextmanager
 from fastapi.middleware.cors import CORSMiddleware
@@ -28,6 +29,7 @@ app.include_router(favorite_router)
 app.include_router(profile_router)
 app.include_router(history_router)
 app.include_router(alert_router)
+app.include_router(insight_router)
 
 
 # app.add_middleware(

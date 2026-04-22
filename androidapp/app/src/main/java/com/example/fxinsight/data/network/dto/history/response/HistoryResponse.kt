@@ -7,20 +7,14 @@ import kotlinx.serialization.Serializable
 data class HistoryResponse(
     val id: String,
 
-    @SerialName("user_id")
-    val userId: String,
+//    @SerialName("user_id")
+//    val userId: String,
 
     @SerialName("base_currency")
     val baseCurrency: String,
 
     @SerialName("target_currency")
     val targetCurrency: String,
-
-    @SerialName("base_amount")
-    val baseAmount: Double,
-
-    @SerialName("converted_amount")
-    val convertedAmount: Double,
 
     val rate: Double,
 

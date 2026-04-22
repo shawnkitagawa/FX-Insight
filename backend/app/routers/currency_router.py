@@ -63,7 +63,7 @@ def currency_information(base: str)-> dict:
 
 
 
-@router.get("/{base}/{target}/week/")
+@router.get("/{base}/{target}/week")
 def weekly_statistics(base: str, target: str) -> dict:
 
     target = target.upper()

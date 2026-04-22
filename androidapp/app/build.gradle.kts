@@ -72,6 +72,8 @@ dependencies {
 
     implementation("androidx.room:room-runtime:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
+    implementation(libs.protolite.well.known.types)
+    implementation(libs.androidx.compose.foundation)
     ksp("androidx.room:room-compiler:2.6.1")
 
     implementation(platform("io.github.jan-tennert.supabase:bom:3.4.1"))
@@ -96,5 +98,11 @@ dependencies {
 
     //OKHTTP
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
+
+    //coil
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    
+    // WorkManager
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 
 }

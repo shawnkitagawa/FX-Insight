@@ -15,7 +15,7 @@ import retrofit2.http.Query
 
 interface FavoriteAPIService {
 
-    @POST("favorite")
+    @POST("favorite/")
     suspend fun createFavorite(
         @Body create: FavoriteCreate,
     ): FavoriteResponse

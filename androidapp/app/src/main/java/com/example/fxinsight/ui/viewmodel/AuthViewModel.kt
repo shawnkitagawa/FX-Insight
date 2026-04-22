@@ -1,5 +1,6 @@
 package com.example.fxinsight.ui.viewmodel
 
+import android.accounts.Account
 import android.util.Log
 import android.util.Patterns
 import androidx.lifecycle.ViewModel
@@ -8,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.fxinsight.application.FXInsightApplication
-import com.example.fxinsight.data.repository.FXInsightRepository
+import com.example.fxinsight.data.repositiory.AcountRepository
 import com.example.fxinsight.ui.uistate.AuthInput
 import com.example.fxinsight.ui.uistate.AuthPage
 import com.example.fxinsight.ui.uistate.AuthState
@@ -19,7 +20,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class AuthViewModel(
-    private val repository: FXInsightRepository
+    private val repository: AcountRepository
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AuthUiState())
@@ -87,9 +88,11 @@ class AuthViewModel(
                 return@launch
             }
 
-            repository.signIn(email, password).fold(
+            repository.login(email, password).fold(
                 onSuccess = {
-                    _uiState.value = _uiState.value.copy(authState = AuthState.Success)
+                    _uiState.value = _uiState.value.copy(
+                        authState = AuthState.Success,
+                        sessionState = SessionState.Authenticated)
 
                     Log.d("Signin Success", "Check authInput ${_uiState.value.authInput}")
                     Log.d("Signin Success ", "Check authInput ${_uiState.value.authPage}")
@@ -124,14 +127,18 @@ class AuthViewModel(
                 return@launch
             }
 
-            repository.signUp(email, password, userName).fold(
-                onSuccess = {
-                    _uiState.value = _uiState.value.copy(authState = AuthState.Success)
+            repository.createAccount(email, password, userName).fold(
+                onSuccess = { response ->
+                    _uiState.value = _uiState.value.copy(
+                        authState = AuthState.Success,
+                        sessionState = SessionState.Authenticated)
 
                     Log.d("SignUP Success", "Check authInput ${_uiState.value.authInput}")
                     Log.d("SignUP Success", "Check authPage ${_uiState.value.authPage}")
                     Log.d("SignUP SUccess", "Check authState ${_uiState.value.authState}")
                     Log.d("SignUP Success", "Check authSession ${_uiState.value.sessionState}")
+                    Log.d("Create Profile", "${response.userId}")
+                    Log.d("Create Profile", "${response.userName}")
                 },
                 onFailure = { error ->
                     _uiState.value = _uiState.value.copy(
@@ -156,7 +163,7 @@ class AuthViewModel(
                 sessionState = SessionState.Checking
             )
 
-            val results = repository.signOut()
+            val results = repository.logout()
 
             results.fold(
                 onSuccess = {
@@ -253,7 +260,7 @@ class AuthViewModel(
             initializer {
                 val application =
                     this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as FXInsightApplication
-                val repository = application.container.fxInsightRepository
+                val repository = application.container.accountRepository
                 AuthViewModel(repository)
             }
         }

@@ -11,12 +11,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -24,20 +28,26 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.fxinsight.ui.uistate.AuthState
 import com.example.fxinsight.ui.uistate.SessionState
+import com.example.fxinsight.ui.screen.AlertScreen
 import com.example.fxinsight.ui.screen.AuthScreen
 import com.example.fxinsight.ui.screen.DashboardScreen
 import com.example.fxinsight.ui.screen.HistoryScreen
 import com.example.fxinsight.ui.screen.MarketScreen
 import com.example.fxinsight.ui.screen.ProfileScreen
 import com.example.fxinsight.ui.screen.WelcomeScreen
+import com.example.fxinsight.ui.uistate.FavUiState
+import com.example.fxinsight.ui.viewmodel.AlertViewModel
 import com.example.fxinsight.ui.viewmodel.AuthViewModel
-import kotlin.math.sign
+import com.example.fxinsight.ui.viewmodel.FavoriteViewModel
+import com.example.fxinsight.ui.viewmodel.HistoryViewModel
+import com.example.fxinsight.ui.viewmodel.HomeViewModel
+import com.example.fxinsight.ui.viewmodel.MarketViewModel
 
 @Composable
 fun FxApp(modifier: Modifier = Modifier) {
     val navController = rememberNavController()
-    val viewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory)
-    val uiState by viewModel.uiState.collectAsState()
+    val authViewModel: AuthViewModel = viewModel(factory = AuthViewModel.Factory)
+    val uiState by authViewModel.uiState.collectAsState()
 
     NavHost(
         navController = navController,
@@ -46,7 +56,7 @@ fun FxApp(modifier: Modifier = Modifier) {
     ) {
         composable(route = "welcome") {
             WelcomeScreen(
-                clickWelcomeButton = viewModel::clickWelcomeButton
+                clickWelcomeButton = authViewModel::clickWelcomeButton
             )
             LaunchedEffect(uiState.sessionState) {
                 Log.d("welcome Screen", "${uiState.sessionState}")
@@ -58,7 +68,7 @@ fun FxApp(modifier: Modifier = Modifier) {
                     }
                     is SessionState.unAutheticated -> {
                         navController.navigate("auth")
-                        viewModel.sessionStateReset()
+                        authViewModel.sessionStateReset()
                     }
 
                     else -> Unit
@@ -75,13 +85,13 @@ fun FxApp(modifier: Modifier = Modifier) {
                     navController.navigate("main") {
                         popUpTo("auth") { inclusive = true }
                     }
-                    viewModel.authStateReset()
-                    viewModel.inputReset()
+                    authViewModel.authStateReset()
+                    authViewModel.inputReset()
                 }
             }
             LaunchedEffect(uiState.authPage) {
-                viewModel.inputReset()
-                viewModel.authStateReset()
+                authViewModel.inputReset()
+                authViewModel.authStateReset()
                 Log.d("auth", "triggered")
             }
 
@@ -89,17 +99,18 @@ fun FxApp(modifier: Modifier = Modifier) {
                 email = uiState.authInput.email,
                 password = uiState.authInput.password,
                 username = uiState.authInput.userName ?: "",
-                updateEmail = viewModel::updateEmail,
-                updatePassword = viewModel::updatePassword,
-                updateUserName = viewModel::updateUserName,
-                isSignUp = viewModel::isSignUp,
+                updateEmail = authViewModel::updateEmail,
+                updatePassword = authViewModel::updatePassword,
+                updateUserName = authViewModel::updateUserName,
+                isSignUp = authViewModel::isSignUp,
+                isSignIn = authViewModel::isSignIn,
                 signIn = { email, password ->
                     Log.d("AUTH_DEBUG", "Running signIn")
-                    viewModel.signIn(email, password)
+                    authViewModel.signIn(email, password)
                 },
                 signUp = { email, password, userName ->
                     Log.d("AUTH_DEBUG", "Running signUp")
-                    viewModel.signUp(email, password, userName)
+                    authViewModel.signUp(email, password, userName)
                 },
                 currentAuthPage = uiState.authPage,
                 errorMessage = errorMessage,
@@ -111,13 +122,13 @@ fun FxApp(modifier: Modifier = Modifier) {
         }
 
         composable(route = "main") {
-            MainScaffold(viewModel::signOut,
+            MainScaffold(authViewModel::signOut,
                 currentSession = uiState.sessionState,
                 navBackWelcome = {navController.navigate("welcome")
                 {
                     popUpTo("main") { inclusive = true }
                 }
-                    viewModel.sessionStateReset()
+                    authViewModel.sessionStateReset()
                 }
             )
         }
@@ -132,17 +143,62 @@ fun MainScaffold(
 
 )
 {
+    val snackbarHostState = remember { SnackbarHostState() }
 
+    val homeViewModel: HomeViewModel = viewModel(factory = HomeViewModel.Factory)
+    val favViewModel: FavoriteViewModel = viewModel(factory = FavoriteViewModel.Factory)
+    val marketViewModel: MarketViewModel = viewModel(factory = MarketViewModel.Factory)
+    val alertViewModel: AlertViewModel = viewModel(factory = AlertViewModel.Factory)
+    val historyViewModel: HistoryViewModel = viewModel(factory = HistoryViewModel.Factory)
+    
     val navMainController = rememberNavController()
     val navBackStackEntry by navMainController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
     Scaffold(
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        },
+
         bottomBar = {
-            BottomNavbar(currentRoute = currentRoute,
-                navToHome = {navMainController.navigate("home")},
-                navToMarket = {navMainController.navigate("market")},
-                navToHistory = {navMainController.navigate("history")},
-                navToProfile = {navMainController.navigate(("profile"))})
+            BottomNavbar(
+                currentRoute = currentRoute,
+                navToHome = {
+                    navMainController.navigate("home") {
+                        popUpTo(navMainController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                navToMarket = {
+                    navMainController.navigate("market") {
+                        popUpTo(navMainController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                navToHistory = {
+                    navMainController.navigate("history") {
+                        popUpTo(navMainController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                },
+                navToProfile = {
+                    navMainController.navigate("profile") {
+                        popUpTo(navMainController.graph.startDestinationId) {
+                            saveState = true
+                        }
+                        launchSingleTop = true
+                        restoreState = true
+                    }
+                }
+            )
         }
 
     )
@@ -155,17 +211,35 @@ fun MainScaffold(
         {
             composable(route = "home")
             {
-                DashboardScreen()
+
+                DashboardScreen(
+                    homeViewModel = homeViewModel, 
+                    favViewModel = favViewModel,
+                    onNavToAlerts = { navMainController.navigate("alerts") }
+                )
+                val favoriteUiState by favViewModel.uiState.collectAsState()
+
+                LaunchedEffect(favoriteUiState.favCreate) {
+                    if (favoriteUiState.favCreate is FavUiState.Error) {
+                        val message = (favoriteUiState.favCreate as FavUiState.Error).message
+
+                        snackbarHostState.showSnackbar(
+                            message ?: "Failed to add favorite"
+                        )
+
+                        favViewModel.resetFavCreate()
+                    }
+                }
 
             }
             composable("market")
             {
-                MarketScreen()
+                MarketScreen(homeViewModel = homeViewModel, marketViewModel = marketViewModel)
 
             }
             composable("history")
             {
-                HistoryScreen()
+                HistoryScreen(viewModel = historyViewModel)
 
             }
             composable("profile")
@@ -179,6 +253,13 @@ fun MainScaffold(
                     }
                 }
                 ProfileScreen(signOut = signOut)
+            }
+            composable("alerts") {
+                AlertScreen(
+                    viewModel = alertViewModel,
+                    homeViewModel = homeViewModel,
+                    onBack = { navMainController.popBackStack() }
+                )
             }
         }
     }

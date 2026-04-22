@@ -2,6 +2,8 @@ import requests
 from datetime import date
 from dateutil.relativedelta import relativedelta
 import sys
+
+
 sys.stdout.reconfigure(encoding='utf-8')
 from decimal import Decimal
 
@@ -18,7 +20,7 @@ def available_currency():
 
     return currency
 
-# print(available_currency())
+print(available_currency())
 
 
 
@@ -41,7 +43,8 @@ def target_rate(base : str, target : str):
 
     return data 
 
-# target_rate("USD", "JPY")
+print("+++++++++++++++++++++++++++++++")
+target_rate("USD", "JPY")
 
 
 
@@ -111,6 +114,7 @@ def one_month_market(base, target):
 
     return time_range_search(one_month_ago.strftime("%Y-%m-%d"), today.strftime("%Y-%m-%d"), base, target)
 
+print("-----------------------------------------")
 print(one_month_market("USD", "JPY"))
 
 # func for 6 month WORK
@@ -174,12 +178,12 @@ def daily_change(base, target):
 
 
     current_change = float(round(((float(yesterday_data) - float(day_before_yesterday_data))/ float(day_before_yesterday_data)) * 100,2 ))
-    return f"{current_change}%"
+    return current_change
 
 print(daily_change("BRL", "JPY"))
 
 
-def weekly_trend(base, target): 
+def weekly_trend(base, target):
     today = date.today()
     seven_days_ago = today - relativedelta(weeks=1)
 
@@ -200,20 +204,18 @@ def weekly_trend(base, target):
 
     change = round(((current_rate - past_week_rate) / past_week_rate) * 100, 2)
 
-    rates = range_search_data
-
-    rate_list = [r["rate"] for r in rates]
+    rate_list = [float(r["rate"]) for r in range_search_data]
 
     total = sum(rate_list)
-    avg = round(total / len(rate_list), 2)
+    avg = total / len(rate_list)
 
     sorted_rates = sorted(rate_list)
     n = len(sorted_rates)
 
     if n % 2 == 0:
-        median = (sorted_rates[n//2 - 1] + sorted_rates[n//2]) / 2
+        median = (sorted_rates[n // 2 - 1] + sorted_rates[n // 2]) / 2
     else:
-        median = sorted_rates[n//2]
+        median = sorted_rates[n // 2]
 
     min_rate = min(rate_list)
     max_rate = max(rate_list)
@@ -228,7 +230,6 @@ def weekly_trend(base, target):
         "min": min_rate,
         "max": max_rate
     }
-
 
 
 def alert_check(alert_target, base, target, alert_configuratoin): 
