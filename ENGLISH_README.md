@@ -55,6 +55,10 @@ The application allows users to convert currencies, save favorite currency pairs
 - Alert workflow
 - AI-generated insight layer 
 
+## System Architecture
+
+![FX Insight System Architecture](./architecture/SystemArchitectureEnglish.drawio.png)
+
 ## Core Functionality
 
 ### Authentication
