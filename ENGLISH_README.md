@@ -21,11 +21,17 @@ The application allows users to convert currencies, save favorite currency pairs
 
 ## Screenshots
 
-- Login
-- Dashboard
-- Market Analysis
-- History
-- Profile
+| Login | Dashboard |
+|---|---|
+| ![](./screenshots/login_screen.png) | ![](./screenshots/dashboard.png) |
+
+| Market Graph | Market AI Insight |
+|---|---|
+| ![](./screenshots/market_graph.png) | ![](./screenshots/market_AI.png) |
+
+| History | Profile |
+|---|---|
+| ![](./screenshots/history.png) | ![](./screenshots/profile.png) |
 
 ## Tech Stack
 
