@@ -67,6 +67,10 @@ FX Insight は、リアルタイム為替換算、市場トレンド分析、ユ
 - アラート機能
 - AI インサイト生成機能 
 
+## システム構成図
+
+![FX Insight のシステム構成図](./architecture/SystemArchitectureJapanese.drawio.png)
+
 ## コア機能
 
 ### 認証
