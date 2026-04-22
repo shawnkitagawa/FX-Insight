@@ -1,0 +1,10 @@
+# Python
+.venv/
+__pycache__/
+
+# Env files (VERY IMPORTANT)
+.env
+backend/.env
+
+# OS / misc
+.DS_Store
